@@ -229,6 +229,22 @@ class Subscriber(models.Model):
             reverse('update_subscriber', args=(token,))
         )
 
+    def get_unsubscribe_url(self):
+        token = jwt.encode(
+            {
+                'n': str(self.notion_id),
+                'exp': timezone.now() + timezone.timedelta(days=30)
+            },
+            settings.SECRET_KEY,
+            algorithm='HS256'
+        )
+
+        return 'http%s://%s%s' % (
+            not settings.DEBUG and 's' or '',
+            settings.DOMAIN,
+            reverse('unsubscribe', args=(token,))
+        )
+
     def send_digest(self):
         posts = Post.objects.exclude(
             pk__in=self.sent_posts.all()
