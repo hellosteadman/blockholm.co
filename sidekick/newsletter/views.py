@@ -88,7 +88,7 @@ class CreateSubscriberView(SEOMixin, FormView):
     template_name = 'newsletter/subscriber_form.html'
     form_class = SubscriberForm
     seo_title = 'Subscribe to the Notion Sidekick newsletter'
-    
+
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
