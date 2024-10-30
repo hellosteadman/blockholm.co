@@ -1,4 +1,5 @@
 from django.urls import reverse
+from sidekick.front.models import Page
 
 
 def theme(request):
@@ -14,7 +15,13 @@ def theme(request):
                 {
                     'label': 'Archive',
                     'url': reverse('post_list')
-                },
+                }
+            ] + [
+                {
+                    'label': page.title,
+                    'url': page.get_absolute_url()
+                } for page in Page.objects.all()
+            ] + [
                 {
                     'label': 'Get Notion',
                     'bold': True,
