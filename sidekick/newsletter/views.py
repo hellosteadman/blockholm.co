@@ -205,6 +205,7 @@ class UpdateSubscriberView(SEOMixin, UpdateView):
 
 class SubscriberUpdatedView(SEOMixin, TemplateView):
     robots = 'noindex'
+    seo_title = 'Details updated'
     template_name = 'newsletter/subscriber_updated.html'
 
 
