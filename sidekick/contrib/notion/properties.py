@@ -48,8 +48,8 @@ class SelectProperty(PropertyBase):
     def from_python(self, value):
         return {
             self.type: {
-                'name': str(v)
-            } for v in value
+                'name': str(value)
+            }
         }
 
 
