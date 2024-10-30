@@ -17,7 +17,7 @@ class IndexView(SEOMixin, OpenGraphMixin, LinkedDataMixin, TemplateView):
         'Weekly tips and templates to help you get the most from Notion.'
     )
 
-    ld_type = 'Blog'
+    ld_type = 'WebSite'
     ld_attributes = {
         'name': 'Notion Sidekick',
         'publisher': {
