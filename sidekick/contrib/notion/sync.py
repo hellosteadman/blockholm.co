@@ -82,6 +82,7 @@ def to_model(Model, before_clean=None, blocks_field=None, media_handler=''):
             database_id=dbid
         )
 
+        i = 0
         for result in response:
             with transaction.atomic():
                 objid = result['id']
@@ -120,6 +121,9 @@ def to_model(Model, before_clean=None, blocks_field=None, media_handler=''):
                 if callable(before_clean):
                     before_clean(obj, result)
 
+                if has_field('ordering'):
+                    obj.ordering = i
+
                 obj.full_clean()
                 obj.save()
                 pks.append(obj.pk)
@@ -147,6 +151,8 @@ def to_model(Model, before_clean=None, blocks_field=None, media_handler=''):
                             pk__in=[r.pk for r in added_rels]
                         )
                     )
+
+                i += 1
 
                 if obj_blocks_field is None:
                     object_synced.send(
