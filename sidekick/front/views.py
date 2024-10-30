@@ -52,7 +52,8 @@ class IndexView(SEOMixin, OpenGraphMixin, LinkedDataMixin, TemplateView):
         posts = kwargs.get(
             'posts',
             Post.objects.filter(
-                published__lte=timezone.now()
+                published__lte=timezone.now(),
+                status__iexact='published'
             )[:12]
         )
 

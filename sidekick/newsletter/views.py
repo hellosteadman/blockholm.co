@@ -55,7 +55,8 @@ class PostListView(PostMixin, OpenGraphMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset().filter(
-            published__lte=timezone.now()
+            published__lte=timezone.now(),
+            status__iexact='published'
         )
 
         if tags := self.get_tags():

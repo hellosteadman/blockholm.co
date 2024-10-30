@@ -214,7 +214,8 @@ class Subscriber(models.Model):
             pk__in=self.sent_posts.all()
         ).filter(
             published__gte=self.subscribed - timezone.timedelta(days=7),
-            published__lte=timezone.now()
+            published__lte=timezone.now(),
+            status__iexact='published'
         )
 
         if self.excluded_tags.exists():

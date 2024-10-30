@@ -9,7 +9,8 @@ class PostSitemap(Sitemap):
 
     def items(self):
         return Post.objects.filter(
-            published__lte=timezone.now()
+            published__lte=timezone.now(),
+            status__iexact='published'
         )
 
     def lastmod(self, obj):
