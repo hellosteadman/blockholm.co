@@ -274,7 +274,8 @@ class Subscriber(models.Model):
             {
                 'name': name,
                 'object_list': posts,
-                'preferences_url': self.get_preferences_url()
+                'preferences_url': self.get_preferences_url(),
+                'unsubscribe_url': self.get_unsubscribe_url()
             },
             'Tips and templates to help you get the most out of Notion.'
         )
