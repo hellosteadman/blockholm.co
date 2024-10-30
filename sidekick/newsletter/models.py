@@ -257,7 +257,8 @@ class Subscriber(models.Model):
             'newsletter/digest_email.html',
             {
                 'name': name,
-                'object_list': posts
+                'object_list': posts,
+                'preferences_url': self.get_preferences_url()
             },
             'Tips and templates to help you get the most out of Notion.'
         )
