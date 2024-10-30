@@ -1,10 +1,11 @@
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import (
+    View,
     ListView,
     DetailView,
     FormView,
@@ -13,6 +14,7 @@ from django.views.generic import (
 )
 
 from hashlib import md5
+from sidekick.contrib.notion import sync
 from sidekick.seo.views import (
     SEOMixin,
     OpenGraphMixin,
@@ -207,6 +209,52 @@ class SubscriberUpdatedView(SEOMixin, TemplateView):
     robots = 'noindex'
     seo_title = 'Details updated'
     template_name = 'newsletter/subscriber_updated.html'
+
+
+class UnsubscribeView(SEOMixin, View):
+    robots = 'noindex'
+
+    def get_object(self):
+        token = jwt.decode(
+            self.kwargs['token'],
+            settings.SECRET_KEY,
+            algorithms=('HS256',)
+        )
+
+        try:
+            return Subscriber.objects.get(
+                notion_id=token['n']
+            )
+        except Subscriber.DoesNotExist:
+            raise Http404('Subscriber not found.')
+
+    def get(self, request, *args, **kwargs):
+        try:
+            obj = self.get_object()
+        except jwt.InvalidTokenError:
+            return TemplateResponse(
+                self.request,
+                'newsletter/invalid_token.html',
+                status=400
+            )
+
+        if request.method == 'GET':
+            obj.status = 'Unsubscribed'
+            obj.save()
+            sync.from_model(obj)
+
+        return HttpResponseRedirect(
+            self.get_success_url()
+        )
+
+    def get_success_url(self):
+        return reverse('unsubscribed')
+
+
+class UnsubscribedView(SEOMixin, TemplateView):
+    robots = 'noindex'
+    seo_title = 'Unsubscribed'
+    template_name = 'newsletter/unsubscribed.html'
 
 
 class EmailPreview(ListView):

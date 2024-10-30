@@ -3,7 +3,7 @@ from .feeds import PostFeed
 from .views import (
     PostListView, PostDetailView,
     CreateSubscriberView, SubscriberCreatedView, SubscriberUpdatedView,
-    UpdateSubscriberView,
+    UpdateSubscriberView, UnsubscribeView, UnsubscribedView,
     EmailPreview
 )
 
@@ -16,5 +16,7 @@ urlpatterns = (
     path('subscribed/', SubscriberCreatedView.as_view(), name='subscriber_created'),  # NOQA
     path('update/<token>/', UpdateSubscriberView.as_view(), name='update_subscriber'),  # NOQA
     path('updated/', SubscriberUpdatedView.as_view(), name='subscriber_updated'),  # NOQA
+    path('unsubscribe/<token>/', UnsubscribeView.as_view(), name='unsubscribe'),  # NOQA
+    path('unsubscribed/', UnsubscribedView.as_view(), name='unsubscribed'),  # NOQA
     path('~/preview/', EmailPreview.as_view())
 )
