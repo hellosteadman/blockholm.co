@@ -1,0 +1,52 @@
+.paragraph-block,
+.bulleted-list-block,
+.quote-block,
+.callout-block {
+    font-family: $font-family-serif;
+    font-weight: $font-weight-light;
+    font-size: 1.25rem;
+
+    b, strong {
+        font-weight: $font-weight-bold;
+    }
+
+    code {
+        color: #2E3842;
+    }
+}
+
+.bulleted-list-block {
+    li {
+        margin-bottom: .5rem;
+
+        ul, ol {
+            margin-top: .5rem;
+        }
+    }
+}
+
+.quote-block {
+    blockquote {
+        border-left: 2px solid $dark;
+        marign-bottom: 1rem;
+        padding-left: calc(1rem + 2px);
+    }
+}
+
+.callout-block {
+    .alert {
+        border-width: 0;
+    }
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.heading-2-block {
+    margin-top: 2rem;
+}
+
+.heading-3-block {
+    margin-top: 1.5rem;
+}

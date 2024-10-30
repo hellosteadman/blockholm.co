@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block body %}
+    <div class="grid text-center margin-bottom-4">
+        <div class="cell-tablet-8 margin-x-auto">
+            <h1>Get Notion Sidekick in your inbox</h1>
+            <p class="lead">
+                This blog publishes at all sorts of times, so to save your inbox
+                we&rsquo;ll email you every Thursday with the stuff you&rsquo;ve missed.
+            </p>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="cell-tablet-8 margin-x-auto">
+            <form action="{% url 'create_subscriber' %}" method="post" novalidate>
+                {% for error in form.captcha.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+
+                {% bootstrap_field form.email size='lg' wrapper_class='margin-bottom-3' placeholder='jo@example.com' %}
+                {% bootstrap_field form.name wrapper_class='margin-bottom-3' placeholder='Jo Bloggs' %}
+                {% bootstrap_field form.include_tags wrapper_class='margin-bottom-3' %}
+
+                <button class="btn btn-primary btn-lg width-100">
+                    {% if form.instance.pk %}Save settings{% else %}Subscribe to weekly updates{% endif %}
+                </button>
+
+                {{ form.hidden_fields|join:'' }}
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+{% endblock body %}

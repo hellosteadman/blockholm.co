@@ -1,0 +1,63 @@
+.container, .container-fluid {
+    @include make-container();
+}
+
+@each $breakpoint, $container-max-width in $container-max-widths {
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        %responsive-container-#{$breakpoint} {
+            max-width: $container-max-width;
+        }
+
+        @each $name, $width in $grid-breakpoints {
+            .container {
+                @extend %responsive-container-#{$breakpoint};
+            }
+
+            @if ($breakpoint == $name) {
+                $extend-breakpoint: false;
+            }
+        }
+    }
+}
+
+:root {
+    @each $name, $value in $grid-breakpoints {
+        --#{$prefix}breakpoint-#{$name}: #{$value};
+    }
+}
+
+.grid {
+    @include make-row();
+
+    > * {
+        @include make-col-ready();
+    }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        .cell#{$infix} {
+            flex: 1 0 0%; // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
+        }
+
+        .cell#{$infix}-auto {
+            @include make-col-auto();
+        }
+
+        @for $i from 1 through 12 {
+            .cell#{$infix}-#{$i} {
+                @include make-col($i, 12);
+            }
+        }
+
+        @for $i from 0 through 11 {
+            @if not ($infix == "" and $i == 0) {
+                .offset#{$infix}-#{$i} {
+                    @include make-col-offset($i, 12);
+                }
+            }
+        }
+    }
+}

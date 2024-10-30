@@ -1,0 +1,25 @@
+{% load newsletter %}
+<div class="grid">
+    <div class="cell-tablet-9 margin-x-auto margin-y-4">
+        <div class="alert alert-{{ kind }}">
+            {% if emoji or icon %}
+                <div class="show-flex">
+                    <div class="margin-end-2">{% if emoji %}{{ emoji }}{% endif %}</div>
+                    <div>
+                        <div class="sibling-block">{{ text|markdown }}</div>
+
+                        {% for child in children %}
+                            <div class="child-block">{{ child.text|markdown }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="sibling-block">{{ text|markdown }}</div>
+
+                {% for child in children %}
+                    <div class="child-block">{{ child.text|markdown }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>

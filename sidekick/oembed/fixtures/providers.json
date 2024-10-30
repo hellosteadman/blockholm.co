@@ -1,0 +1,106 @@
+[
+    {
+        "patterns": [
+            "^https?://(?:www\\.)?youtube\\.com/watch\\?(?:.+&)?v=(.+)(?:&|$)",
+            "^https?://youtu\\.be\\/(.+)(?:\\?|$)"
+        ],
+        "html": "<iframe width=\"{{ width }}\" height=\"{{ height }}\" src=\"https://www.youtube-nocookie.com/embed/{{ params.0 }}\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>",
+        "embed_url": "https://www.youtube-nocookie.com/embed/{{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "^https?://([^\\.]+)\\.castos\\.com/player/(.+)(?:\\?|$)"
+        ],
+        "html": "<iframe width=\"100%\" height=\"150\" frameborder=\"no\" scrolling=\"no\" src=\"https://{{ params.0 }}.castos.com/player/{{ params.1 }}\" seamless></iframe>",
+        "embed_url": "https://{{ params.0 }}.castos.com/player/{{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "^https://anchor\\.fm/([^/]+)/embed/episodes/(.+)(?:\\?|$)",
+            "^https://podcasters\\.spotify\\.com/pod/show/([^\\/]+)/embed/episodes/(.+)(?:\\?|$)"
+        ],
+        "html": "<iframe width=\"100%\" height=\"100\" frameborder=\"no\" scrolling=\"no\" src=\"https://anchor.fm/{{ params.0 }}/embed/episodes/{{ params.1 }}\" seamless></iframe>",
+        "embed_url": "https://anchor.fm/{{ params.0 }}/embed/episodes/{{ params.1 }}"
+    },
+    {
+        "patterns": [
+            "https://webplayer\\.whooshkaa\\.com/player/episode/id/(\\d+)",
+            "https://player\\.whooshkaa\\.com/episode/?\\?(?:.*&)?id=(\\d+)"
+        ],
+        "html": "<iframe width=\"100%\" height=\"200\" frameborder=\"no\" scrolling=\"no\" src=\"https://webplayer.whooshkaa.com/player/episode/id/{{ params.0 }}\" seamless></iframe>",
+        "embed_url": "https://webplayer.whooshkaa.com/player/episode/id/{{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "https://playlist\\.megaphone\\.fm/\\?(?:.*&)?e=(.+)(?:\\?|$)"
+        ],
+        "html": "<iframe width=\"100%\" height=\"200\" frameborder=\"no\" scrolling=\"no\" src=\"https://playlist.megaphone.fm/?e={{ params.0 }}\" seamless></iframe>",
+        "embed_url": "https://playlist.megaphone.fm/?e={{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "https://widget\\.spreaker\\.com/player\\?episode_id=(\\d+)"
+        ],
+        "html": "<iframe width=\"100%\" height=\"200\" frameborder=\"no\" scrolling=\"no\" src=\"https://widget.spreaker.com/player?episode_id={{ params.0 }}\" seamless></iframe>",
+        "embed_url": "https://widget.spreaker.com/player?episode_id={{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "https://embed.simplecast.com/(.+)(?:\\?|$)"
+        ],
+        "html": "<iframe width=\"100%\" height=\"200\" frameborder=\"no\" scrolling=\"no\" src=\"https://embed.simplecast.com/{{ params.0 }}\" seamless></iframe>",
+        "embed_url": "https://embed.simplecast.com/{{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "^https?://share\\.transistor\\.fm/s/(.+)(?:\\?|$)",
+            "^https?://media\\.transistor\\.fm/([^/]+)/[^\\.]+\\.mp3$"
+        ],
+        "html": "<iframe width=\"100%\" height=\"180\" frameborder=\"no\" scrolling=\"no\" src=\"https://share.transistor.fm/e/{{ params.0 }}\" seamless></iframe>",
+        "embed_url": "https://share.transistor.fm/e/{{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "^https?://player\\.captivate\\.fm/episode/([\\w-]+)"
+        ],
+        "html": "<iframe width=\"100%\" height=\"180\" frameborder=\"no\" scrolling=\"no\" src=\"https://player.captivate.fm/episode/{{ params.0 }}\" seamless></iframe>",
+        "embed_url": "https://player.captivate.fm/episode/{{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "^https?://share\\.fireside\\.fm/episode/(\\w+\\+\\w+)"
+        ],
+        "html": "<iframe src=\"https://player.fireside.fm/v2/{{ params.0 }}?theme=light\" width=\"100%\" height=\"200\" frameborder=\"0\" scrolling=\"no\"></iframe>",
+        "embed_url": "https://share.fireside.fm/episode/{{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "^https?://(?:www\\.)?vimeo\\.com/(\\d+)"
+        ],
+        "html": "<iframe width=\"{{ width }}\" height=\"{{ height }}\" src=\"https://player.vimeo.com/video/{{ params.0 }}?badge=0&amp;autopause=0&amp;player_id=0\" frameborder=\"0\" allow=\"autoplay; fullscreen; picture-in-picture\" allowfullscreen></iframe>",
+        "embed_url": "https://player.vimeo.com/video/{{ params.0 }}?badge=0&amp;autopause=0&amp;player_id=0",
+        "thumbnail": "https://vumbnail.com/{{ params.0 }}_large.jpg"
+    },
+    {
+        "patterns": [
+            "^https://bandcamp.com/EmbeddedPlayer/(.+)"
+        ],
+        "html": "<iframe width=\"{{ width }}\" height=\"120\" src=\"https://bandcamp.com/EmbeddedPlayer/{{ params.0 }}\" frameborder=\"0\" allow=\"autoplay; fullscreen; picture-in-picture\" allowfullscreen></iframe>",
+        "embed_url": "https://bandcamp.com/EmbeddedPlayer/{{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "https://podcasts\\.apple\\.com(?:/.+)?/podcast(?:/.+)?/id(\\d+)\\?(?:.*&.*)?i=(\\d+)"
+        ],
+        "html": "<iframe width=\"100%\" height=\"175\" src=\"https://embed.podcasts.apple.com/podcast/id{{ params.0 }}?i={{ params.1 }}&theme=dark\" frameborder=\"0\" sandbox=\"allow-same-origin allow-scripts allow-top-navigation-by-user-activation\" allow=\"encrypted-media *; clipboard-write\"></iframe>",
+        "embed_url": "https://embed.podcasts.apple.com/podcast/id{{ params.0 }}"
+    },
+    {
+        "patterns": [
+            "^https?://(?:www\\.)?tiktok\\.com/@([^/]+)/video/(\\d+)"
+        ],
+        "html": "<iframe width=\"{{ width }}\" height=\"{{ height }}\" src=\"https://www.tiktok.com/embed/v2/{{ params.1 }}\" title=\"TikTok video player\" frameborder=\"0\" allow=\"autoplay; encrypted-media\"></iframe>",
+        "embed_url": "https://www.tiktok.com/@{{ params.0 }}/video/{{ params.0 }}",
+        "ratio": [9, 16]
+    }
+]

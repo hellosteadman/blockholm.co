@@ -1,0 +1,7 @@
+{% load newsletter %}<div class="grid">
+    <div class="cell-tablet-8 margin-x-auto">
+        <ul>{% for item in items %}
+            <li>{{ item.text|markdown }}</li>
+        {% endfor %}</ul>
+    </div>
+</div>

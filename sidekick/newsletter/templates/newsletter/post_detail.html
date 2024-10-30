@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load newsletter %}
+
+{% block body %}
+    <div class="grid">
+        <div class="cell-laptop-8 cell-desktop-6 margin-x-auto text-center">
+            <h1><a href="{{ object.get_absolute_url }}" class="text-black text-decoration-none">{{ object }}</a></h1>
+            <p class="lead">
+                <img alt="{{ object.author.get_full_name }}'s avatar" src="{{ object.author.email|gravatar:96 }}" class="rounded-circle" style="height: 1.75rem;">
+                Published by
+                <a href="{% url 'post_list' %}?author={{ object.author.username }}" class="text-dark text-decoration-none">{{ object.author.get_full_name }}</a> on
+                <date datetime="{{ object.published.isoformat }}">{{ object.published|date:'F jS, Y' }}</date>
+                <br>
+                {% for tag in object.tags.all %}
+                    <a href="{% url 'post_list' %}?tag={{ tag.slug }}" class="badge background-secondary rounded-pill text-decoration-none">{{ tag }}</a>
+                {% endfor %}
+            </p>
+
+            <hr class="margin-y-5">
+        </div>
+    </div>
+
+    {{ object.content.render }}
+{% endblock body %}

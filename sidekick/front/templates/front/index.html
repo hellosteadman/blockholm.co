@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static newsletter django_bootstrap5 %}
+
+{% block header %}
+    <div class="show-flex flex-wrap justify-content-between margin-bottom-3 margin-bottom-tablet-5">
+        <div class="show-flex margin-start-0 site-brand align-items-center">
+            <img alt="Logo" src="{% static 'img/logo.png' %}" class="margin-end-2" style="height: 4rem;">
+            <div class="display-2 site-name">Notion<br><span class="font-weight-bold">Sidekick</span></div>
+        </div>
+
+        {% include 'theme/main_menu.html' %}
+    </div>
+
+    <p class="display-2">Weekly tips and templates to help you get the most from Notion.</p>
+    <form action="{% url 'create_subscriber' %}" method="post" class="show-tablet-flex">
+        <div class="show-flex flex-grow-1 margin-end-tablet-2 margin-bottom-3 margin-bottom-tablet-0">
+            {% bootstrap_field form.email show_label=False size='lg' wrapper_class='flex-grow-1 margin-end-2' field_class='rounded-pill' placeholder='jo@example.com' %}
+            <button type="submit" class="btn btn-primary flex-shrink-0 rounded-pill">Subscribe</button>
+        </div>
+        <div class="show-flex justify-content-center flex-shrink-0">
+            <a href=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="margin-end-2" style="width: 3rem;"><defs><linearGradient id="apple__c" x1="0" x2="0" y1="0" y2="32" gradientUnits="userSpaceOnUse"><stop stop-color="#F452FF"/><stop offset="1" stop-color="#832BC1"/></linearGradient><clipPath id="apple__a"><path fill="#fff" d="M0 0h32v32H0z"/></clipPath></defs><g clip-path="url(#apple__a)"><mask id="apple__b" width="32" height="32" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path d="M16 0c12.357 0 16 3.643 16 16s-3.643 16-16 16S0 28.357 0 16 3.643 0 16 0Z"/></mask><g mask="url(#apple__b)"><path fill="url(#apple__c)" d="M0 0h32v32H0z"/><path fill="#fff" fill-rule="evenodd" d="M15.967 3.537a11.333 11.333 0 0 0-3.718 22.027.153.153 0 0 0 .202-.166 58.705 58.705 0 0 1-.164-1.161.388.388 0 0 0-.229-.307 9.884 9.884 0 1 1 7.885 0 .388.388 0 0 0-.229.307c-.05.383-.105.773-.164 1.16a.152.152 0 0 0 .202.165 11.332 11.332 0 0 0-3.785-22.025ZM16 16.583a2.638 2.638 0 1 1 0-5.276 2.638 2.638 0 0 1 0 5.276Zm-.004 1.068a3.23 3.23 0 0 1 2.335.838c.25.248.402.578.43.928.063.813.045 1.63-.054 2.438a55.305 55.305 0 0 1-.452 3.647c-.084.62-.21 1.235-.378 1.84a1.823 1.823 0 0 1-1.881 1.12 1.824 1.824 0 0 1-1.881-1.12 13.97 13.97 0 0 1-.379-1.84 55.556 55.556 0 0 1-.452-3.647 12.04 12.04 0 0 1-.052-2.438c.028-.35.18-.679.428-.928a3.224 3.224 0 0 1 2.336-.838Zm5.673-5.15a6.14 6.14 0 0 0-5.908-3.764 6.14 6.14 0 0 0-3.96 10.614.47.47 0 0 1 .148.369c-.022.431-.018.864.013 1.295a.149.149 0 0 1-.232.132 7.591 7.591 0 1 1 8.546-.001.15.15 0 0 1-.233-.133c.029-.43.033-.862.013-1.294a.474.474 0 0 1 .148-.368 6.139 6.139 0 0 0 1.465-6.85Z" clip-rule="evenodd"/></g></g></svg></a>
+            <a href=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="margin-end-2" style="width: 3rem;"><defs><clipPath id="spotify__a"><path fill="#fff" d="M0 0h32v32H0z"/></clipPath><clipPath id="spotify__c"><path fill="#fff" d="M3.333 3.333h25.333v25.333H3.333z"/></clipPath></defs><g clip-path="url(#spotify__a)"><mask id="spotify__b" width="32" height="32" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path d="M16 0c12.357 0 16 3.643 16 16s-3.643 16-16 16S0 28.357 0 16 3.643 0 16 0Z"/></mask><g mask="url(#spotify__b)"><path fill="#181413" d="M0 0h32v32H0z"/><g fill-rule="evenodd" clip-path="url(#spotify__c)" clip-rule="evenodd"><path fill="#1ED760" d="M16 28.668c6.997 0 12.668-5.672 12.668-12.668 0-6.996-5.671-12.668-12.668-12.668C9.004 3.332 3.332 9.004 3.332 16c0 6.996 5.672 12.668 12.668 12.668Z"/><path fill="#181413" d="M9.244 19.105c4.76-1.087 8.926-.652 12.304 1.413a.79.79 0 1 1-.824 1.348c-2.935-1.793-6.653-2.243-11.128-1.22a.79.79 0 0 1-.352-1.54Zm-.44-3.991c4.57-1.387 10.32-.72 14.23 1.683a.987.987 0 1 1-1.033 1.681c-3.403-2.091-8.564-2.708-12.623-1.476a.987.987 0 1 1-.574-1.888Zm7.479-4.994c2.953.236 6.017.98 8.42 2.406a1.183 1.183 0 0 1-1.209 2.035c-1.99-1.181-4.666-1.863-7.4-2.082-2.731-.219-5.396.034-7.318.617a1.183 1.183 0 1 1-.687-2.265c2.264-.687 5.236-.948 8.194-.712Z"/></g></g></g></svg></a>
+            <a href=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style="width: 3rem;"><defs><clipPath id="rss__a"><path fill="#fff" d="M0 0h32v32H0z"/></clipPath><clipPath id="rss__d"><path fill="#fff" d="M6 6h20v20H6z"/></clipPath><linearGradient id="rss__c" x1="0" x2="0" y1="0" y2="32" gradientUnits="userSpaceOnUse"><stop stop-color="#FA9C39"/><stop offset="1" stop-color="#E26C2D"/></linearGradient></defs><g clip-path="url(#rss__a)"><mask id="rss__b" width="32" height="32" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path d="M16 0c12.357 0 16 3.643 16 16s-3.643 16-16 16S0 28.357 0 16 3.643 0 16 0Z"/></mask><g mask="url(#rss__b)"><path fill="#F18935" d="M0 0h32v32H0z"/><path fill="url(#rss__c)" d="M0 0h32v32H0z"/><g clip-path="url(#rss__d)"><path fill="#fff" fill-rule="evenodd" d="M8 6c-1.985 0-2 .895-2 2s.015 2 2 2c8.374 0 14 5.627 14 14 0 1.105.015 2 2 2s2-.895 2-2C26 13.402 18.598 6 8 6ZM6 23.333c0-1.473.02-2.666 2.667-2.666 2.646 0 2.666 1.193 2.666 2.666 0 1.473-.02 2.667-2.666 2.667S6 24.806 6 23.333Zm0-8.666c0-1.105.015-2 2-2 5.228 0 11.333 2.968 11.333 11.333 0 1.105-.015 2-2 2-1.984 0-2-.895-2-2 0-6.618-5.128-7.333-7.333-7.333-1.985 0-2-.896-2-2Z" clip-rule="evenodd"/></g></g></g></svg></a>
+        </div>
+
+        {{ form.hidden_fields|join:'' }}
+        {% csrf_token %}
+    </form>
+{% endblock header %}
+
+{% block body %}
+    <div class="grid justify-content-center">
+        {% for object in post_list %}
+            <div class="show-flex flex-column cell-tablet-4 margin-bottom-4">
+                <a href="{{ object.get_absolute_url }}" class="show-flex flex-column justify-content-between background-white padding-3 rounded height-100 text-black text-decoration-none">
+                    <div>
+                        <h2 class="h5 margin-top-0">{{ object.title }}</h2>
+                        <div class="small">{{ object.get_excerpt|truncatewords:20|linebreaks }}</div>
+                    </div>
+
+                    <p class="text-muted margin-bottom-0">
+                        <img alt="{{ object.author.get_full_name }}'s avatar" src="{{ object.author.email|gravatar:96 }}" class="rounded-circle" style="height: 1rem;">
+                        {{ object.published|date:'jS F, Y' }}
+                    </p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock body %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load newsletter %}
+
+{% block body %}
+    <div class="grid">
+        <div class="cell-laptop-8 cell-desktop-6 margin-x-auto text-center">
+            {% if tags %}
+                <h1>
+                    <a href="{% url 'post_list' %}{% for tag in tags %}{% if forloop.first %}?{% else %}&{% endif %}tag={{ tag.slug }}{% endfor %}{% if author %}&author={{ author.username }}{% endif %}" class="text-black text-decoration-none">
+                        Posts tagged {% for tag in tags %}
+                            <span class="text-secondary">{{ tag.name }}</span>{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                        {% if author %}
+                            by
+                            <span class="text-secondary">{{ author.get_full_name }}</span>
+                        {% endif %}
+                    </a>
+                </h1>
+            {% elif author %}
+                <h1><a href="{% url 'post_list' %}?author={{ author.username }}" class="text-black text-decoration-none">Posts by <span class="text-secondary">{{ author.get_full_name }}</span></a></h1>
+            {% else %}
+                <h1><a href="" class="text-black text-decoration-none">All the posts</a></h1>
+                <p class="text-muted lead">Here&rsquo;s everything I&rsquo;ve written as part of this newsletter to date.<br>Fill your boots.</p>
+            {% endif %}
+            <hr class="margin-y-5">
+        </div>
+    </div>
+
+    <div class="pagination-context">
+        <div class="grid justify-content-center">
+            {% for object in object_list %}
+                <div class="pagination-item show-flex flex-column cell-tablet-4 margin-bottom-4">
+                    <a href="{{ object.get_absolute_url }}" class="show-flex flex-column justify-content-between background-white padding-3 rounded height-100 text-black text-decoration-none">
+                        <div>
+                            <h2 class="h5 margin-top-0">{{ object.title }}</h2>
+                            <div class="small">{{ object.get_excerpt|truncatewords:20|linebreaks }}</div>
+                        </div>
+
+                        <p class="text-muted margin-bottom-0">
+                            <img alt="{{ object.author.get_full_name }}'s avatar" src="{{ object.author.email|gravatar:96 }}" class="rounded-circle" style="height: 1rem;">
+                            {{ object.published|date:'jS F, Y' }}
+                        </p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if page_obj.has_next %}
+            <div class="show-flex justify-content-center">
+                <a href="?page={{ page_obj.next_page_number }}" rel="next" class="btn btn-secondary btn-lg btn-pagination">Load more</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock body %}

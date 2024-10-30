@@ -1,0 +1,97 @@
+{% load seo static recaptcha %}<!DOCTYPE html>
+<html lang="en-gb">
+    <head>
+        <meta charset="utf-8">
+        {% include 'seo/head.html' %}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+        {% block head %}{% endblock %}
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+        <link rel="mask-icon" href="{% static 'favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+        <script defer data-domain="{{ request.get_host }}" src="https://plausible.io/js/plausible.js"></script>
+        {% recaptcha_script %}
+    </head>
+    <body class="show-flex viewport-height-100 justify-content-between flex-column background-light {% block body_classes %}{% endblock %}">
+        <header class="site-header text-light padding-y-4">
+            <div class="container">
+                {% block header %}
+                    <div class="show-flex flex-wrap justify-content-between">
+                        <a href="/" class="show-flex align-items-center text-light text-decoration-none">
+                            <img alt="Logo" src="{% static 'img/logo.png' %}" class="margin-end-1" style="height: 1rem;">
+                            Notion&nbsp;<b>Sidekick</b>
+                        </a>
+
+                        <button type="submit" class="show-tablet-none btn btn-lg" data-toggle="menu">
+                            <i class="bi bi-list"></i>
+                        </button>
+
+                        {% include 'theme/main_menu.html' %}
+                    </div>
+                {% endblock header %}
+            </div>
+        </header>
+
+        <main class="container main-container padding-y-4">
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="padding-y-4 margin-top-auto margin-bottom-0 background-white">
+            <div class="container">
+                <div class="show-tablet-flex align-items-center justify-content-between">
+                    <span>&copy; {% now 'Y' %} Hello Steadman Ltd</span>
+                    <ul class="nav">
+                        {% for link in menus.footer %}
+                            <li class="nav-item">
+                                <a href="{{ link.url }}" class="nav-link{% if link.bold %} font-weight-bold{% endif %}">{{ link.label }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="show-tablet-flex align-items-center justify-content-end">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a href="https://www.linkedin.com/in/hellosteadman/" rel="me" target="_blank" class="nav-link text-dark">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="https://www.instagram.com/hellosteadman/" rel="me" target="_blank" class="nav-link text-dark">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="https://www.threads.net/@hellosteadman/" rel="me" target="_blank" class="nav-link text-dark">
+                                <i class="bi bi-threads"></i>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="https://mastodon.social/@hellosteadman/" rel="me" target="_blank" class="nav-link text-dark">
+                                <i class="bi bi-mastodon"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <p class="small text-muted">
+                    This site uses affiliate links to Notion but is not affiliated with or endorsed by Notion in any other way.
+                    Any mention of Notion is purely informational, and all trademarks, including the Notion name and branding, are owned by Notion Labs Inc.
+                </p>
+            </div>
+        </footer>
+
+        <script src="{% static 'js/theme.js' %}"></script>
+        {% block javascript %}{% endblock %}
+    </body>
+</html>

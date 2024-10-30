@@ -1,0 +1,50 @@
+name: Deploy to production environment
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_HOST }}
+
+      - name: Add known host
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Stop rq
+        run: ssh root@${{ secrets.SSH_HOST }} "systemctl stop rq"
+
+      - name: Stop gunicorn
+        run: ssh root@${{ secrets.SSH_HOST }} "systemctl stop gunicorn"
+
+      - name: Copy files
+        run: |
+          rsync -ra --delete sidekick/* root@${{ secrets.SSH_HOST }}:/var/app/sidekick
+          rsync -ra manage.py root@${{ secrets.SSH_HOST }}:/var/app/manage.py
+          rsync -ra requirements.txt root@${{ secrets.SSH_HOST }}:/var/app/requirements.txt
+
+      - name: Install packages
+        run: ssh root@${{ secrets.SSH_HOST }} "cd /var/app && source /var/app/bin/activate && pip install -r requirements.txt"
+
+      - name: Migrate database
+        run: ssh root@${{ secrets.SSH_HOST }} "cd /var/app && source /var/app/.env && python manage.py migrate && python manage.py buildwatson"
+
+      - name: Collect static files
+        run: |
+          ssh root@${{ secrets.SSH_HOST }} "cd /var/app && source /var/app/.env && python manage.py collectstatic --noinput"
+          ssh root@${{ secrets.SSH_HOST }} "chown -R django:www-data /var/media/static/*"
+          ssh root@${{ secrets.SSH_HOST }} "chmod -R 775 /var/media/static/*"
+
+      - name: Start rq
+        run: ssh root@${{ secrets.SSH_HOST }} "systemctl start rq"
+
+      - name: Start gunicorn
+        run: ssh root@${{ secrets.SSH_HOST }} "systemctl start gunicorn"

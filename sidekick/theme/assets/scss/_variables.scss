@@ -1,0 +1,57 @@
+$variable-prefix: 'sk-';
+$enable-gradients: false;
+$enable-transitions: true;
+$enable-smooth-scroll: true;
+$enable-grid-classes: true;
+$enable-cssgrid: false;
+$enable-rfs: true;
+$enable-validation-icons: false;
+$enable-negative-margins: true;
+$enable-deprecation-messages: false;
+$enable-important-utilities: true;
+
+$white: #fff;
+$light: #F3F2E9;
+$black: #000;
+$blue: #D3E5EF;
+$purple: #E8DEEE;
+$pink: #F4E0E9;
+$red: #EFDFDA;
+$orange: #FADEC9;
+$yellow: #FDECC8;
+$green: #DBEDDB;
+$dark: #0E323A;
+$primary: #2483E2;
+$danger: #EB5757;
+$link-color: #73716E;
+
+$font-family-sans-serif: 'Inter';
+$font-family-serif: 'Merriweather';
+$grid-breakpoints: (
+    xs: 0,
+    mobile: 576px,
+    tablet: 768px,
+    laptop: 992px
+);
+
+$container-max-widths: (
+    mobile: 540px,
+    tablet: 720px,
+    laptop: 960px
+);
+
+$display-font-sizes: (
+    1: 3rem,
+    2: 2rem,
+    3: 1.75rem,
+    4: 1.5rem,
+    5: 1.25rem,
+    6: 1rem
+);
+
+$min-contrast-ratio: 3.5;
+$link-shade-percentage: 20%;
+$nav-link-color: $dark;
+$nav-link-hover-color: shift-color($nav-link-color, $link-shade-percentage);
+$component-active-bg: $primary;
+$headings-font-weight: 700;
