@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load newsletter %}
 
+{% block head %}
+    {{ block.super }}
+    <meta name="fediverse:creator" content="@hellosteadman@mastodon.social">
+{% endblock head %}
+
 {% block body %}
     <div class="grid">
         <div class="cell-laptop-8 cell-desktop-6 margin-x-auto text-center">
