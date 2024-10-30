@@ -2,19 +2,33 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, FormView, TemplateView
-from sidekick.seo.views import SEOMixin, OpenGraphMixin, OpenGraphArticleMixin
+from hashlib import md5
+from sidekick.seo.views import (
+    SEOMixin,
+    OpenGraphMixin,
+    OpenGraphArticleMixin,
+    LinkedDataMixin
+)
+
 from taggit.models import Tag
+from urllib.parse import urlencode
 from .forms import SubscriberForm
 from .models import Post
 
 
-class PostMixin(SEOMixin):
+class PostMixin(SEOMixin, LinkedDataMixin):
     model = Post
     ld_type = 'BlogPost'
 
 
 class PostListView(PostMixin, OpenGraphMixin, ListView):
     paginate_by = 24
+    og_title = 'Post archive'
+    og_description = 'Drown in an ocean of posts about Notion.'
+    ld_type = 'Blog'
+    ld_attributes = {
+        'name': 'Notion Sidekick'
+    }
 
     def get_tags(self):
         if not hasattr(self, '_tags'):
@@ -81,7 +95,44 @@ class PostListView(PostMixin, OpenGraphMixin, ListView):
 
 
 class PostDetailView(PostMixin, OpenGraphArticleMixin, DetailView):
-    pass
+    ld_type = 'BlogPosting'
+    
+    def get_ld_attributes(self):
+        obj = self.get_object()
+        attrs = {
+            'headline': obj.title,
+            'inLanguage': 'en-gb',
+            'url': self.request.build_absolute_uri(
+                reverse('post_list')
+            ),
+            'description': obj.get_excerpt(),
+            'author': {
+                '@type': 'Person',
+                'name': obj.author.get_full_name(),
+                'givenName': obj.author.first_name,
+                'familyName': obj.author.last_name,
+                'image': {
+                    '@type': 'imageObject',
+                    'url': 'https://secure.gravatar.com/avatar/%s?%s' % (
+                        md5(obj.author.email.encode('utf-8')).hexdigest(),
+                        urlencode(
+                            {
+                                's': 400,
+                                'd': 'mp',
+                                'r': 'g'
+                            }
+                        )
+                    ),
+                    'width': 400,
+                    'height': 400
+                }
+            }
+        }
+
+        if obj.published:
+            attrs['datePublished'] = obj.published
+
+        return attrs
 
 
 class CreateSubscriberView(SEOMixin, FormView):
