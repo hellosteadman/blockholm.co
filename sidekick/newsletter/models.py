@@ -1,16 +1,20 @@
 from django.core.files import File
 from django.core.files.storage import default_storage
 from django.db import models
+from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import strip_tags
+from hashlib import md5
 from markdown import markdown
 from sidekick.contrib.notion import sync
+from sidekick.contrib.notion.signals import object_synced
 from sidekick.mail import render_to_inbox
 from taggit.managers import TaggableManager
 from tempfile import NamedTemporaryFile
 from urllib.parse import urlsplit
+from .helpers import create_og_image
 from .managers import PostManager, SubscriberManager
 from .query import BlockQuerySet
 import os
@@ -18,6 +22,19 @@ import requests
 
 
 class Post(models.Model):
+    def upload_og_image(self, filename):
+        basename = md5(
+            (
+                self.title + '\n' + self.get_excerpt()
+            ).encode('utf-8')
+        ).hexdigest()
+
+        return 'newsletter/%s/og_%s%s' % (
+            self.pk,
+            basename,
+            os.path.splitext(filename)[-1]
+        )
+
     objects = PostManager()
     notion_id = models.UUIDField(
         'Notion ID',
@@ -42,6 +59,14 @@ class Post(models.Model):
     tags = TaggableManager(
         blank=True,
         related_name='posts'
+    )
+
+    og_image = models.ImageField(
+        'Open Graph image',
+        upload_to=upload_og_image,
+        max_length=255,
+        null=True,
+        blank=True
     )
 
     def __str__(self):
@@ -219,3 +244,24 @@ class Subscriber(models.Model):
 
     class Meta:
         ordering = ('-subscribed',)
+
+
+@receiver(object_synced, sender=Post)
+def post_synced(sender, instance, direction, **kwargs):
+    if direction == 'up':
+        return
+
+    imgname = instance.upload_og_image('image.png')
+    if instance.og_image and imgname == instance.og_image.name:
+        return
+
+    img = create_og_image(
+        instance.title,
+        instance.get_excerpt()
+    )
+
+    instance.og_image = File(
+        open(img, 'rb')
+    )
+
+    instance.save()
