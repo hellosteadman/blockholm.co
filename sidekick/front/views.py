@@ -1,10 +1,17 @@
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage as static
 from django.utils import timezone
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from sidekick.newsletter.forms import SubscriberForm
 from sidekick.newsletter.models import Post
-from sidekick.seo.views import SEOMixin, OpenGraphMixin, LinkedDataMixin
+from sidekick.seo.views import (
+    SEOMixin,
+    OpenGraphMixin,
+    OpenGraphArticleMixin,
+    LinkedDataMixin
+)
+
+from .models import Page
 
 
 class IndexView(SEOMixin, OpenGraphMixin, LinkedDataMixin, TemplateView):
@@ -61,4 +68,25 @@ class IndexView(SEOMixin, OpenGraphMixin, LinkedDataMixin, TemplateView):
             **super().get_context_data(**kwargs),
             'form': kwargs.get('form', SubscriberForm()),
             'post_list': posts
+        }
+
+
+class PageDetailView(
+    SEOMixin, LinkedDataMixin, OpenGraphArticleMixin, DetailView
+):
+    model = Page
+    ld_type = 'WebPage'
+
+    def get_og_description(self):
+        return self.get_object().get_excerpt()
+
+    def get_ld_attributes(self):
+        obj = self.get_object()
+        return {
+            'headline': obj.title,
+            'inLanguage': 'en-gb',
+            'url': self.request.build_absolute_uri(
+                obj.get_absolute_url()
+            ),
+            'description': obj.get_excerpt()
         }

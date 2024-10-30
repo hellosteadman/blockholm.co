@@ -149,7 +149,7 @@ class Attachment(models.Model):
     media = models.FileField(max_length=255, upload_to=upload_media)
     tags = TaggableManager(
         blank=True,
-        related_name='attachments'
+        related_name='post_attachments'
     )
 
     def __str__(self):

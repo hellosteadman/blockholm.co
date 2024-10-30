@@ -123,7 +123,8 @@ NOTION = {
     'API_KEY': os.getenv('NOTION_API_KEY'),
     'DATABASES': {
         'newsletter.Post': os.getenv('NOTION_NEWSLETTER_DATABASE'),
-        'newsletter.Subscriber': os.getenv('NOTION_SUBSCRIBER_DATABASE')
+        'newsletter.Subscriber': os.getenv('NOTION_SUBSCRIBER_DATABASE'),
+        'front.Page': os.getenv('NOTION_PAGE_DATABASE')
     }
 }
 
