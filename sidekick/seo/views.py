@@ -5,6 +5,7 @@ from django.core.files.storage import default_storage
 from django.db.models.fields.files import ImageFieldFile
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django.views.generic import TemplateView
 from easy_thumbnails.files import ThumbnailerImageFieldFile
 from hashlib import md5
 from sidekick.helpers import create_og_image
@@ -435,5 +436,18 @@ class LinkedDataMixin(object):
 
         return {
             'json_ld': get_json_ld,
+            **super().get_context_data(**kwargs)
+        }
+
+
+class RobotsTxtView(TemplateView):
+    template_name = 'seo/robots.txt'
+    content_type = 'text/plain'
+
+    def get_context_data(self, **kwargs):
+        return {
+            'sitemap_url': self.request.build_absolute_uri(
+                reverse('django.contrib.sitemaps.views.index')
+            ),
             **super().get_context_data(**kwargs)
         }
