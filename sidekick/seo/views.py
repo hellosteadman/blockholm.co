@@ -2,8 +2,7 @@ from datetime import datetime, date
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
 from django.db.models.fields.files import ImageFieldFile
-from django.urls import reverse, resolve
-from django.urls.exceptions import Resolver404
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from easy_thumbnails.files import ThumbnailerImageFieldFile
 import json
