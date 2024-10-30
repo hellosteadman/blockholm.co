@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.files import File
 from django.core.files.storage import default_storage
 from django.db import models
@@ -17,6 +18,7 @@ from tempfile import NamedTemporaryFile
 from urllib.parse import urlsplit
 from .managers import PostManager, SubscriberManager
 from .query import BlockQuerySet
+import jwt
 import os
 import requests
 
@@ -210,6 +212,22 @@ class Subscriber(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_preferences_url(self):
+        token = jwt.encode(
+            {
+                'n': str(self.notion_id),
+                'exp': timezone.now() + timezone.timedelta(days=7)
+            },
+            settings.SECRET_KEY,
+            algorithm='HS256'
+        )
+
+        return 'http%s://%s%s' % (
+            not settings.DEBUG and 's' or '',
+            settings.DOMAIN,
+            reverse('update_subscriber', args=(token,))
+        )
 
     def send_digest(self):
         posts = Post.objects.exclude(
