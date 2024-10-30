@@ -1,5 +1,6 @@
 from django.apps import apps
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import FieldDoesNotExist
 from django.db import transaction
 from django.db.models import Model as DjangoModel
@@ -62,6 +63,8 @@ def to_model(Model, before_clean=None, blocks_field=None, media_handler=''):
     for dbname, dbid in settings.DATABASES.items():
         if not issubclass(apps.get_model(dbname), Model):
             continue
+
+        content_type = ContentType.objects.get_for_model(Model)
 
         try:
             obj_blocks_field = Model._meta.get_field(blocks_field)
@@ -166,7 +169,9 @@ def to_model(Model, before_clean=None, blocks_field=None, media_handler=''):
                         **{
                             blocks_parent: obj
                         },
-                        notion_id=block_id
+                        notion_id=block_id,
+                        content_type=content_type,
+                        object_id=obj.pk
                     )
 
                     obj_block.type = block.type

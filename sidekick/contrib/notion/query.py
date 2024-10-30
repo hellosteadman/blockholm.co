@@ -20,7 +20,7 @@ class BlockQuerySet(QuerySet):
                     if simple:
                         blocks.append(
                             render_to_string(
-                                'newsletter/content/bulleted_list_block.html',
+                                'notion/content/bulleted_list_block.html',
                                 {
                                     'items': list_items,
                                     'simple': True
@@ -32,7 +32,7 @@ class BlockQuerySet(QuerySet):
                             '<div class="%s-list-block">%s</div>' % (
                                 in_list,
                                 render_to_string(
-                                    'newsletter/content/bulleted_list_block.html',
+                                    'notion/content/bulleted_list_block.html',
                                     {
                                         'items': list_items,
                                         'simple': False

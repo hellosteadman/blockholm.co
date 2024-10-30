@@ -1,15 +1,16 @@
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.files import File
 from django.core.files.storage import default_storage
 from django.db import models
 from django.dispatch import receiver
-from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import strip_tags
 from hashlib import md5
 from markdown import markdown
 from sidekick.contrib.notion import sync
+from sidekick.contrib.notion.models import Block
 from sidekick.contrib.notion.signals import object_synced
 from sidekick.helpers import create_og_image
 from sidekick.mail import render_to_inbox
@@ -17,7 +18,6 @@ from taggit.managers import TaggableManager
 from tempfile import NamedTemporaryFile
 from urllib.parse import urlsplit
 from .managers import PostManager, SubscriberManager
-from .query import BlockQuerySet
 import jwt
 import os
 import requests
@@ -70,6 +70,8 @@ class Post(models.Model):
         null=True,
         blank=True
     )
+
+    content = GenericRelation(Block)
 
     def __str__(self):
         return self.title
@@ -152,35 +154,6 @@ class Attachment(models.Model):
 
     def __str__(self):
         return self.notion_url.split('/')[-1]
-
-
-class Block(models.Model):
-    objects = BlockQuerySet.as_manager()
-    post = models.ForeignKey(
-        Post,
-        on_delete=models.CASCADE,
-        related_name='content'
-    )
-
-    notion_id = models.UUIDField('Notion ID', unique=True, editable=False)
-    ordering = models.PositiveIntegerField(default=0)
-    type = models.CharField(max_length=300)
-    properties = models.JSONField(default=dict, blank=True)
-
-    def __str__(self):
-        return self.type.capitalize().replace('_', ' ')
-
-    def render(self, simple=False):
-        return render_to_string(
-            'newsletter/content/%s_block.html' % self.type,
-            {
-                **self.properties,
-                'simple': simple
-            }
-        )
-
-    class Meta:
-        ordering = ('ordering',)
 
 
 class Subscriber(models.Model):
