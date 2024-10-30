@@ -1,10 +1,13 @@
 from datetime import datetime, date
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
+from django.core.files.storage import default_storage
 from django.db.models.fields.files import ImageFieldFile
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from easy_thumbnails.files import ThumbnailerImageFieldFile
+from hashlib import md5
+from sidekick.helpers import create_og_image
 import json
 import logging
 import os
@@ -127,6 +130,27 @@ class OpenGraphMixin(object):
 
             if image and isinstance(image, ImageFieldFile) and image:
                 return image.url
+
+            if hasattr(self, object, 'og_image'):
+                return
+
+        if title := self.get_og_title():
+            if subtitle := self.get_og_description():
+                basename = md5(
+                    (title + '\n' + subtitle).encode('utf-8')
+                ).hexdigest()
+
+                imgname = 'seo/og_%s.png' % basename
+                if not default_storage.exists(imgname):
+                    default_storage.save(
+                        imgname,
+                        open(
+                            create_og_image(title, subtitle),
+                            'rb'
+                        )
+                    )
+
+                return default_storage.url(imgname)
 
     def get_og_url(self):
         return self.request.build_absolute_uri(self.request.path)
