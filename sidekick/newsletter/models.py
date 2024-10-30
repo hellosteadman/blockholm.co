@@ -233,7 +233,7 @@ class Subscriber(models.Model):
         posts = posts.order_by('published')[:5]
         render_to_inbox(
             (self.name, self.email),
-            'Your weekly digest from Notino Sidekick',
+            'Your weekly digest from Notion Sidekick',
             'newsletter/digest_email.html',
             {
                 'name': name,
