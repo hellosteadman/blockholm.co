@@ -96,6 +96,9 @@ class PostListView(PostMixin, OpenGraphMixin, ListView):
 
 class PostDetailView(PostMixin, OpenGraphArticleMixin, DetailView):
     ld_type = 'BlogPosting'
+
+    def get_og_description(self):
+        return self.get_object().get_excerpt()
     
     def get_ld_attributes(self):
         obj = self.get_object()
