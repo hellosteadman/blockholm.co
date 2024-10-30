@@ -1,5 +1,8 @@
-{% load newsletter %}
-<div class="grid">
+{% load newsletter %}{% if simple %}
+    {{ emoji|defualt:'' }}
+    {{ text|markdown }}
+    {% for child in children %}{{ child.text|markdown }}{% endfor %}
+{% else %}<div class="grid">
     <div class="cell-tablet-9 margin-x-auto margin-y-4">
         <div class="alert alert-{{ kind }}">
             {% if emoji or icon %}
@@ -22,4 +25,4 @@
             {% endif %}
         </div>
     </div>
-</div>
+</div>{% endif %}

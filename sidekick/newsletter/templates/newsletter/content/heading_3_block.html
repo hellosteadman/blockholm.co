@@ -1,5 +1,5 @@
-<div class="grid">
+{% if not simple %}<div class="grid">
     <div class="cell-tablet-8 margin-x-auto">
-        <h3>{{ text }}</h3>
+        {% endif %}<h3>{{ text }}</h3>{% if not simple %}
     </div>
-</div>
+</div>{% endif %}

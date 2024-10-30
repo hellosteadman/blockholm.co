@@ -168,10 +168,13 @@ class Block(models.Model):
     def __str__(self):
         return self.type.capitalize().replace('_', ' ')
 
-    def render(self):
+    def render(self, simple=False):
         return render_to_string(
             'newsletter/content/%s_block.html' % self.type,
-            self.properties
+            {
+                **self.properties,
+                'simple': simple
+            }
         )
 
     class Meta:

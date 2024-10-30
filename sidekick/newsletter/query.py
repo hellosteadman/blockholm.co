@@ -4,9 +4,9 @@ from django.utils.safestring import mark_safe
 
 
 class BlockQuerySet(QuerySet):
-    def render(self):
+    def render(self, simple=False):
         blocks = []
-        in_list = 'bulleted'
+        in_list = None
         list_items = []
 
         for block in self.all():
@@ -17,25 +17,43 @@ class BlockQuerySet(QuerySet):
                 list_items.append(block.properties)
             else:
                 if in_list:
-                    blocks.append(
-                        '<div class="%s-list-block">%s</div>' % (
-                            in_list,
+                    if simple:
+                        blocks.append(
                             render_to_string(
                                 'newsletter/content/bulleted_list_block.html',
                                 {
-                                    'items': list_items
+                                    'items': list_items,
+                                    'simple': True
                                 }
                             )
                         )
-                    )
+                    else:
+                        blocks.append(
+                            '<div class="%s-list-block">%s</div>' % (
+                                in_list,
+                                render_to_string(
+                                    'newsletter/content/bulleted_list_block.html',
+                                    {
+                                        'items': list_items,
+                                        'simple': False
+                                    }
+                                )
+                            )
+                        )
 
                     in_list = None
+                    list_items = []
 
-                blocks.append(
-                    '<div class="%s-block">%s</div>' % (
-                        block.type.replace('_', '-'),
-                        block.render()
+                if simple:
+                    blocks.append(
+                        block.render(simple)
                     )
-                )
+                else:
+                    blocks.append(
+                        '<div class="%s-block">%s</div>' % (
+                            block.type.replace('_', '-'),
+                            block.render(simple)
+                        )
+                    )
 
         return mark_safe(''.join(blocks))

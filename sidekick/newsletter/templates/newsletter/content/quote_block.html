@@ -1,6 +1,8 @@
 {% load newsletter %}
-<div class="grid">
-    <div class="cell-tablet-9 margin-x-auto margin-y-4">
-        <blockquote>{{ text|markdown }}</blockquote>
+{% if simple %}<blockquote>{{ text|markdown }}</blockquote>{% else %}
+    <div class="grid">
+        <div class="cell-tablet-9 margin-x-auto margin-y-4">
+            <blockquote>{{ text|markdown }}</blockquote>
+        </div>
     </div>
-</div>
+{% endif %}

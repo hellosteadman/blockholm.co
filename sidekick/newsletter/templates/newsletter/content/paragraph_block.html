@@ -1,4 +1,4 @@
 {% load newsletter %}
-<div class="grid">
+{% if simple %}{{ text|markdown }}{% else %}<div class="grid">
     <div class="cell-tablet-8 margin-x-auto">{{ text|markdown }}</div>
-</div>
+</div>{% endif %}
