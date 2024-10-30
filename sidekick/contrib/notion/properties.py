@@ -101,6 +101,10 @@ class TitleProperty(TextProperty):
     pass
 
 
+class RichTextProperty(TextProperty):
+    pass
+
+
 class EmailProperty(PropertyBase):
     pass
 
@@ -142,6 +146,7 @@ def Property(name, definition):
             'date': DateProperty,
             'url': UrlProperty,
             'title': TitleProperty,
+            'rich_text': RichTextProperty,
             'select': SelectProperty,
             'multi_select': MultiSelectProperty,
             'status': StatusProperty,
