@@ -9,6 +9,7 @@ from notion_client.helpers import iterate_paginated_api
 from . import settings
 from .blocks import Block
 from .properties import Property
+from .signals import object_synced
 import json
 
 
@@ -145,6 +146,12 @@ def to_model(Model, before_clean=None, blocks_field=None, media_handler=''):
                     )
 
                 if obj_blocks_field is None:
+                    object_synced.send(
+                        Model,
+                        instance=obj,
+                        direction='down'
+                    )
+
                     continue
 
                 obj_blocks = getattr(obj, obj_blocks_field.name)
@@ -176,6 +183,11 @@ def to_model(Model, before_clean=None, blocks_field=None, media_handler=''):
                     block_ids.append(obj_block.pk)
 
                 obj_blocks.exclude(pk__in=block_ids).delete()
+                object_synced.send(
+                    Model,
+                    instance=obj,
+                    direction='down'
+                )
 
         Model.objects.exclude(pk__in=pks).delete()
         return Model.objects.filter(pk__in=pks)
@@ -207,6 +219,12 @@ def from_model(obj):
 
             if value is not None:
                 attrs[definition['id']] = prop.from_python(value)
+
+        object_synced.send(
+            Model,
+            instance=obj,
+            direction='up'
+        )
 
         if obj.notion_id:
             notion.pages.update(
