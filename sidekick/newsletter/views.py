@@ -192,7 +192,7 @@ class UpdateSubscriberView(SEOMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         try:
             return super().get(request, *args, **kwargs)
-        except jwt.DecodeError:
+        except jwt.InvalidTokenError:
             return TemplateResponse(
                 self.request,
                 'newsletter/invalid_token.html',
