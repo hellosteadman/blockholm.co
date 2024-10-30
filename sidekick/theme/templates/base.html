@@ -20,7 +20,7 @@
         <script defer data-domain="{{ request.get_host }}" src="https://plausible.io/js/plausible.js"></script>
         {% recaptcha_script %}
     </head>
-    <body class="show-flex viewport-height-100 justify-content-between flex-column background-light {% block body_classes %}{% endblock %}">
+    <body class="show-flex viewport-height-100 justify-content-between flex-column background-light {% block body_classes %}{% endblock %}">{% block html %}
         <header class="site-header text-light padding-y-4">
             <div class="container">
                 {% block header %}
@@ -90,7 +90,7 @@
                     Any mention of Notion is purely informational, and all trademarks, including the Notion name and branding, are owned by Notion Labs Inc.
                 </p>
             </div>
-        </footer>
+        </footer>{% endblock html %}
 
         <script src="{% static 'js/theme.js' %}"></script>
         {% block javascript %}{% endblock %}
