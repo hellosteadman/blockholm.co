@@ -210,12 +210,11 @@ class Subscriber(models.Model):
         return self.name
 
     def send_digest(self):
-        now = timezone.now()
         posts = Post.objects.exclude(
             pk__in=self.sent_posts.all()
         ).filter(
-            published__gte=now - timezone.timedelta(days=90),
-            published__lte=now
+            published__gte=self.subscribed - timezone.timedelta(days=7),
+            published__lte=timezone.now()
         )
 
         if self.excluded_tags.exists():
