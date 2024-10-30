@@ -23,6 +23,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Subscriber)
 class SubscriberAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'subscribed')
+    list_display = ('name', 'email', 'subscribed', 'status')
+    list_filter = ('status',)
     date_hierarchy = 'subscribed'
     filter_horizontal = ('sent_posts',)

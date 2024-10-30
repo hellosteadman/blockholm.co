@@ -6,5 +6,7 @@ class Command(BaseCommand):
     help = 'Send newsletter digests to subscribers.'
 
     def handle(self, *args, **options):
-        for subscriber in Subscriber.objects.iterator():
+        for subscriber in Subscriber.objects.filter(
+            status__iexact='subscribed'
+        ).iterator():
             subscriber.send_digest()

@@ -42,6 +42,7 @@ class SubscriberForm(forms.ModelForm):
     def save(self):
         obj = super().save(commit=False)
         obj.subscribed = timezone.now()
+        obj.status = 'Subscribed'
         obj.save()
 
         include_tags = self.cleaned_data.get('include_tags', [])
