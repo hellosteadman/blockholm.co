@@ -5,7 +5,9 @@
     <div class="grid">
         <div class="cell-laptop-8 cell-desktop-6 margin-x-auto text-center">
             <h1><a href="{{ object.get_absolute_url }}" class="text-black text-decoration-none">{{ object }}</a></h1>
-            <p class="lead">
+            {% if object.subtitle %}<p class="lead">{{ object.subtitle }}</p>{% endif %}
+
+            <p>
                 <img alt="{{ object.author.get_full_name }}'s avatar" src="{{ object.author.email|gravatar:96 }}" class="rounded-circle" style="height: 1.75rem;">
                 Published by
                 <a href="{% url 'post_list' %}?author={{ object.author.username }}" class="text-dark text-decoration-none">{{ object.author.get_full_name }}</a> on
