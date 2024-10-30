@@ -38,6 +38,25 @@ class SubscriberForm(forms.ModelForm):
 
     captcha = RecaptchaField()
 
+    def __init__(self, *args, **kwargs):
+        if instance := kwargs.get('instance'):
+            if instance.pk and instance.excluded_tags.exists():
+                initial = kwargs.get('initial', {})
+                initial['include_tags'] = Tag.objects.annotate(
+                    post_count=Count('posts')
+                ).filter(
+                    post_count__gte=2
+                ).exclude(
+                    pk__in=instance.excluded_tags.values_list(
+                        'pk',
+                        flat=True
+                    )
+                )
+
+                kwargs['initial'] = initial
+
+        super().__init__(*args, **kwargs)
+
     @transaction.atomic
     def save(self):
         obj = super().save(commit=False)
@@ -56,6 +75,15 @@ class SubscriberForm(forms.ModelForm):
 
         for tag in excluded_tags:
             obj.excluded_tags.add(tag)
+
+        obj.excluded_tags.remove(
+            *Tag.objects.exclude(
+                pk__in=excluded_tags.values_list(
+                    'pk',
+                    flat=True
+                )
+            )
+        )
 
         obj.notion_id = sync.from_model(obj)
         obj.save()

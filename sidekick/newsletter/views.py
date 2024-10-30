@@ -1,7 +1,17 @@
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.http.response import Http404
+from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import ListView, DetailView, FormView, TemplateView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    FormView,
+    UpdateView,
+    TemplateView
+)
+
 from hashlib import md5
 from sidekick.seo.views import (
     SEOMixin,
@@ -13,7 +23,8 @@ from sidekick.seo.views import (
 from taggit.models import Tag
 from urllib.parse import urlencode
 from .forms import SubscriberForm
-from .models import Post
+from .models import Post, Subscriber
+import jwt
 
 
 class PostMixin(SEOMixin, LinkedDataMixin):
@@ -155,6 +166,41 @@ class CreateSubscriberView(SEOMixin, FormView):
 class SubscriberCreatedView(SEOMixin, TemplateView):
     robots = 'noindex'
     template_name = 'newsletter/subscriber_created.html'
+
+
+class UpdateSubscriberView(SEOMixin, UpdateView):
+    robots = 'noindex'
+    form_class = SubscriberForm
+    
+    def get_seo_title(self):
+        return 'Update your email preferences'
+
+    def get_object(self):
+        token = jwt.decode(
+            self.kwargs['token'],
+            settings.SECRET_KEY,
+            algorithms=('HS256',)
+        )
+
+        try:
+            return Subscriber.objects.get(
+                notion_id=token['n']
+            )
+        except Subscriber.DoesNotExist:
+            raise Http404('Subscriber not found.')
+
+    def get(self, request, *args, **kwargs):
+        try:
+            return super().get(request, *args, **kwargs)
+        except jwt.DecodeError:
+            return TemplateResponse(
+                self.request,
+                'newsletter/invalid_token.html',
+                status=400
+            )
+
+    def get_success_url(self):
+        return reverse('subscriber_updated')
 
 
 class SubscriberUpdatedView(SEOMixin, TemplateView):
