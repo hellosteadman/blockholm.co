@@ -59,7 +59,6 @@ class RecaptchaField(forms.CharField):
             )
 
         response = response.json()
-        print(response)
 
         if any(response.get('error-codes', [])):
             raise ValidationError(
