@@ -10,11 +10,11 @@ from hashlib import md5
 from markdown import markdown
 from sidekick.contrib.notion import sync
 from sidekick.contrib.notion.signals import object_synced
+from sidekick.helpers import create_og_image
 from sidekick.mail import render_to_inbox
 from taggit.managers import TaggableManager
 from tempfile import NamedTemporaryFile
 from urllib.parse import urlsplit
-from .helpers import create_og_image
 from .managers import PostManager, SubscriberManager
 from .query import BlockQuerySet
 import os
