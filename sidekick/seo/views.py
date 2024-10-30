@@ -107,6 +107,9 @@ class OpenGraphMixin(object):
             return staticfiles_storage.url(self.og_image)
 
         if getattr(self, 'object', None):
+            if image := getattr(self.object, 'og_image', None):
+                return image.url
+
             image = getattr(self.object, 'thumbnail', None)
             if image and isinstance(image, ThumbnailerImageFieldFile):
                 try:
