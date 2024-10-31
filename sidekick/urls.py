@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.http.response import JsonResponse
 from django.urls import path, re_path, include
 from django.utils import timezone
+from django.views.defaults import page_not_found, server_error
 from django.views.generic import TemplateView, View
 from sidekick.seo.views import RobotsTxtView
 from . import sitemaps
@@ -42,6 +43,9 @@ if settings.DEBUG:
                 'document_root': settings.MEDIA_ROOT
             }
         ),
+        path('404.html', page_not_found, {'exception': Exception()}),
+        path('500.html', server_error),
+        path('503.html', TemplateView.as_view(template_name='503.html'))
     )
 
 
