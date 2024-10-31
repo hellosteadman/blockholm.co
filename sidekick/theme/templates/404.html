@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block html %}
+    <div class="viewport-height-100 show-flex flex-column align-items-center justify-content-center text-center">
+        <div class="margin-y-auto width-50">
+            <h1>Page not found</h1>
+            <p class="lead">
+                Sorry, looks like the thing you were looking for has been
+                removed or scrubbed from the Internet out of embarrassment.
+            </p>
+        </div>
+
+        <div class="margin-top-auto margin-bottom-0">
+            <img alt="John Travolta in Pulp Fiction, looking around, all confused" src="{% static 'img/travolta.gif' %}" width="245">
+        </div>
+    </div>
+{% endblock html %}
