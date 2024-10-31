@@ -145,7 +145,7 @@ class Attachment(models.Model):
         related_name='attachments'
     )
 
-    notion_url = models.URLField('Notion URL', max_length=255, unique=True)
+    notion_url = models.URLField('Notion URL', max_length=512, unique=True)
     media = models.FileField(max_length=255, upload_to=upload_media)
     tags = TaggableManager(
         blank=True,
