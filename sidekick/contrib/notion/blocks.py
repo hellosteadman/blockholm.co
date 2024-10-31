@@ -1,5 +1,11 @@
+from django.apps import apps
 from notion_client import Client
+from uuid import UUID
 from . import settings
+import re
+
+
+NOTION_PATH_MATCH = re.compile(r'^/([a-zA-Z0-9]{32})$')
 
 
 class BlockBase(object):
@@ -31,6 +37,23 @@ class BlockBase(object):
     def to_python(self):
         raise NotImplementedError
 
+    def parse_url(self, url):
+        if match := NOTION_PATH_MATCH.match(url):
+            try:
+                notion_id = UUID(match.groups()[0])
+            except ValueError:
+                return url
+
+            for dbname, dbid in settings.DATABASES.items():
+                Model = apps.get_model(dbname)
+
+                for obj in Model.objects.filter(
+                    notion_id=notion_id
+                ):
+                    return obj.get_absolute_url()
+
+        return url
+
 
 class RichTextBlock(BlockBase):
     def to_python(self, value=None):
@@ -56,7 +79,7 @@ class RichTextBlock(BlockBase):
             if link := text.get('link'):
                 content = '[%s](%s)' % (
                     content,
-                    link['url']
+                    self.parse_url(link['url'])
                 )
 
             returned += content
