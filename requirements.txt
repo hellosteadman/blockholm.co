@@ -9,6 +9,7 @@ django-taggit==6.1.0
 django-watson==1.6.3
 Django==5.1.2
 easy-thumbnails==2.10
+ffmpeg-python==0.2.0
 Gunicorn==23.0.0
 markdown==3.7
 notion-client==2.2.1
