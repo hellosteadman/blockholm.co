@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load newsletter %}
+{% load static newsletter django_bootstrap5 %}
 
 {% block head %}
     {{ block.super }}
@@ -7,25 +7,46 @@
 {% endblock head %}
 
 {% block body %}
-    <div class="grid">
-        <div class="cell-laptop-8 cell-desktop-6 margin-x-auto text-center">
-            <h1><a href="{{ object.get_absolute_url }}" class="text-black text-decoration-none">{{ object }}</a></h1>
-            {% if object.subtitle %}<p class="lead">{{ object.subtitle }}</p>{% endif %}
+    <article>
+        <header class="grid">
+            <div class="cell-laptop-8 cell-desktop-6 margin-x-auto text-center">
+                <h1><a href="{{ object.get_absolute_url }}" class="text-black text-decoration-none">{{ object }}</a></h1>
+                {% if object.subtitle %}<p class="lead">{{ object.subtitle }}</p>{% endif %}
 
-            <p>
-                <img alt="{{ object.author.get_full_name }}'s avatar" src="{{ object.author.email|gravatar:96 }}" class="rounded-circle" style="height: 1.75rem;">
-                Published by
-                <a href="{% url 'post_list' %}?author={{ object.author.username }}" class="text-dark text-decoration-none">{{ object.author.get_full_name }}</a> on
-                <date datetime="{{ object.published.isoformat }}">{{ object.published|date:'F jS, Y' }}</date>
-                <br>
-                {% for tag in object.tags.all %}
-                    <a href="{% url 'post_list' %}?tag={{ tag.slug }}" class="badge background-secondary rounded-pill text-decoration-none">{{ tag }}</a>
-                {% endfor %}
-            </p>
+                <p>
+                    <img alt="{{ object.author.get_full_name }}'s avatar" src="{{ object.author.email|gravatar:96 }}" class="rounded-circle" style="height: 1.75rem;">
+                    Published by
+                    <a href="{% url 'post_list' %}?author={{ object.author.username }}" class="text-dark text-decoration-none">{{ object.author.get_full_name }}</a> on
+                    <date datetime="{{ object.published.isoformat }}">{{ object.published|date:'F jS, Y' }}</date>
+                    <br>
+                    {% for tag in object.tags.all %}
+                        <a href="{% url 'post_list' %}?tag={{ tag.slug }}" class="badge background-secondary rounded-pill text-decoration-none">{{ tag }}</a>
+                    {% endfor %}
+                </p>
 
-            <hr class="margin-y-5">
+                <hr class="margin-y-5">
+            </div>
         </div>
-    </div>
 
-    {{ object.content.render }}
+        <section>{{ object.content.render }}</section>
+    </article>
+
+    <aside class="margin-top-4 grid">
+        <div class="cell-tablet-7 margin-x-auto">
+            <div class="show-flex align-items-center justify-content-center margin-bottom-3">
+                <img alt="Logo" src="{% static 'img/logo.png' %}" class="margin-end-2" style="height: 2rem;">
+                <div class="display-2 site-name">Notion <span class="font-weight-bold">Sidekick</span></div>
+            </div>
+
+            <form action="{% url 'create_subscriber' %}" method="post" class="show-tablet-flex">
+                <div class="show-flex flex-grow-1 margin-end-tablet-2 margin-bottom-3 margin-bottom-tablet-0">
+                    {% bootstrap_field subscribe_form.email show_label=False size='lg' wrapper_class='flex-grow-1 margin-end-2' field_class='rounded-pill' placeholder='jo@example.com' %}
+                    <button type="submit" class="btn btn-primary flex-shrink-0 rounded-pill">Subscribe</button>
+                </div>
+
+                {{ subscribe_form.hidden_fields|join:'' }}
+                {% csrf_token %}
+            </form>
+        </div>
+    </aside>
 {% endblock body %}

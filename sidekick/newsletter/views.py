@@ -151,6 +151,12 @@ class PostDetailView(PostMixin, OpenGraphArticleMixin, DetailView):
 
         return attrs
 
+    def get_context_data(self, **kwargs):
+        return {
+            'subscribe_form': SubscriberForm(),
+            **super().get_context_data(**kwargs)
+        }
+
 
 class CreateSubscriberView(SEOMixin, FormView):
     template_name = 'newsletter/subscriber_form.html'
