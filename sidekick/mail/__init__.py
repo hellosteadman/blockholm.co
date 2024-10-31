@@ -1,15 +1,7 @@
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from email.utils import formataddr
-
-
-DEFAULT_FROM = formataddr(
-    (
-        settings.DEFAULT_FROM_NAME,
-        settings.DEFAULT_FROM_EMAIL
-    )
-)
+from .tasks import send_mail
 
 
 def render_to_inbox(recipient, subject, template, context, plain_text=''):
@@ -32,15 +24,4 @@ def render_to_inbox(recipient, subject, template, context, plain_text=''):
         else:
             recipient = recipient[1]
 
-    message = EmailMultiAlternatives(
-        subject,
-        plain_text,
-        DEFAULT_FROM,
-        [recipient],
-        headers={
-            'Reply-To': settings.DEFAULT_REPLYTO_EMAIL
-        }
-    )
-
-    message.attach_alternative(html_body, 'text/html')
-    message.send()
+    send_mail.delay(subject, recipient, plain_text, html_body)
