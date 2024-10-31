@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+    <head>
+        <meta charset="utf-8">
+        <title>Service temporarily unavailable</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/static/css/theme.css">
+    </head>
+    <body class="show-flex viewport-height-100 justify-content-between flex-column background-light">
+        <div class="viewport-height-100 show-flex flex-column align-items-center justify-content-center text-center">
+            <div class="margin-y-auto width-50">
+                <h1>One moment</h1>
+                <p class="lead margin-bottom-4">
+                    We&rsquo;re making some adjustments to the webiste. This page will
+                    reload when it&rsauo;s ready.
+                </p>
+
+                <svg width="4em" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z" transform="matrix(0 0 0 0 12 12)">
+                        <animateTransform id="svgSpinnersPulseRingsMultiple0" attributeName="transform" begin="0;svgSpinnersPulseRingsMultiple2.end" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" type="translate" values="12 12;0 0" />
+                        <animateTransform additive="sum" attributeName="transform" begin="0;svgSpinnersPulseRingsMultiple2.end" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" type="scale" values="0;1" />
+                        <animate attributeName="opacity" begin="0;svgSpinnersPulseRingsMultiple2.end" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0" />
+                    </path>
+                    <path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z" transform="matrix(0 0 0 0 12 12)">
+                        <animateTransform id="svgSpinnersPulseRingsMultiple1" attributeName="transform" begin="svgSpinnersPulseRingsMultiple0.begin+0.2s" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" type="translate" values="12 12;0 0" />
+                        <animateTransform additive="sum" attributeName="transform" begin="svgSpinnersPulseRingsMultiple0.begin+0.2s" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" type="scale" values="0;1" />
+                        <animate attributeName="opacity" begin="svgSpinnersPulseRingsMultiple0.begin+0.2s" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0" />
+                    </path>
+                    <path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z" transform="matrix(0 0 0 0 12 12)">
+                        <animateTransform id="svgSpinnersPulseRingsMultiple2" attributeName="transform" begin="svgSpinnersPulseRingsMultiple0.begin+0.4s" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" type="translate" values="12 12;0 0" />
+                        <animateTransform additive="sum" attributeName="transform" begin="svgSpinnersPulseRingsMultiple0.begin+0.4s" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" type="scale" values="0;1" />
+                        <animate attributeName="opacity" begin="svgSpinnersPulseRingsMultiple0.begin+0.4s" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0" />
+                    </path>
+                </svg>
+            </div>
+        </div>
+
+        <script>
+            var checkUptime = function() {
+                fetch('/~/ready/').then(
+                    function (response) {
+                        if (response.ok) {
+                            window.location.reload()
+                        } else {
+                            setTimeout(checkUptime, 1000)
+                        }
+                    }
+                ).catch(
+                    function (err) {
+                        setTimeout(checkUptime, 1000)
+                    }
+                )
+            }
+
+            setTimeout(checkUptime, 1000)
+        </script>
+    </body>
+</html>
