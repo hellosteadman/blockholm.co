@@ -6,6 +6,7 @@ from . import sitemaps
 
 
 urlpatterns = [
+    path('admin/rq/', include('django_rq.urls')),
     path('admin/', admin.site.urls),
     path('robots.txt', RobotsTxtView.as_view(), name='robots_txt'),
     path('', include('sidekick.newsletter.urls')),
