@@ -172,7 +172,8 @@ class VideoBlock(BlockBase):
             )
 
         return {
-            'src': path
+            'src': path,
+            'remote': self.value['type'] == 'external'
         }
 
 

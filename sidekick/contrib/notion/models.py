@@ -21,8 +21,12 @@ class Block(models.Model):
         return self.type.capitalize().replace('_', ' ')
 
     def render(self, simple=False):
+        typename = self.type
+        if typename == 'video' and self.properties.get('remote'):
+            typename = 'embed'
+
         return render_to_string(
-            'notion/content/%s_block.html' % self.type,
+            'notion/content/%s_block.html' % typename,
             {
                 **self.properties,
                 'simple': simple
