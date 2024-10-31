@@ -1,6 +1,6 @@
 from django.core.files.storage import default_storage
 from django.template import Library
-from django.utils.html import format_html
+from django.template.loader import render_to_string
 from sidekick.contrib.notion.helpers import create_poster
 import os
 
@@ -26,8 +26,10 @@ def video(src):
         finally:
             os.remove(dest)
 
-    return format_html(
-        '<video src="{}" poster="{}" controls></video>',
-        default_storage.url(src),
-        default_storage.url(poster)
+    return render_to_string(
+        'notion/video_player.html',
+        {
+            'src': default_storage.url(src),
+            'poster': default_storage.url(poster)
+        }
     )

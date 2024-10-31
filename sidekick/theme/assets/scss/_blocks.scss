@@ -50,3 +50,156 @@
 .heading-3-block {
     margin-top: 1.5rem;
 }
+
+.video-block {
+    position: relative;
+    width: 100%;
+    margin: auto;
+    background: $dark;
+
+    video {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        transition: opacity .3s ease;
+        z-index: 1;
+    }
+
+    .controls, .ready-state {
+        display: none;
+    }
+
+    @include media-breakpoint-up(tablet) {
+        .controls {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: $dark;
+            padding: 8px 16px;
+            border-radius: $border-radius;
+            opacity: 0;
+            box-shadow: $box-shadow-lg;
+            transition: opacity .3s ease;
+            user-select: none;
+            -webkit-user-select: none;
+            z-index: 3;
+        }
+
+        button, input {
+            background: transparent;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 1rem;
+            border-radius: $border-radius;
+            -webkit-appearance: button;
+
+            &.disabled {
+                opacity: .5;
+                pointer-events: none;
+            }
+
+            &:not(.disabled) {
+                &:hover {
+                    background: $primary;
+                }
+            }
+
+            &.btn-play, &.btn-pause {
+                font-size: 48px;
+                line-height: 24px;
+            }
+        }
+
+        input[type="range"] {
+            flex: 1;
+            margin: 0 10px;
+            appearance: none;
+            background: $light;
+            height: 5px;
+
+            &.disabled {
+                opacity: .5;
+                pointer-events: none;
+            }
+        }
+
+        .ready-state {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity .3s ease;
+            z-index: 2;
+
+            button {
+                border-radius: 50%;
+                background: $dark;
+                width: 4rem;
+                height: 4rem;
+                box-shadow: $box-shadow-lg;
+            }
+        }
+
+        .btn-pause, .btn-unmute {
+            display: none;
+        }
+
+        &.playing {
+            .btn-pause {
+                display: block;
+            }
+
+            .btn-play {
+                display: none;
+            }
+        }
+
+        &.muted {
+            .btn-unmute {
+                display: block;
+            }
+
+            .btn-mute {
+                display: none;
+            }
+        }
+
+        &.ready {
+            video {
+                opacity: .75;
+            }
+
+            .ready-state {
+                opacity: 1;
+                pointer-events: all;
+            }
+        }
+
+        &:not(.ready) {
+            &:hover {
+                .controls {
+                    opacity: 1;
+                }
+            }
+        }
+
+        &.idle {
+            .controls {
+                opacity: 0 !important;
+            }
+        }
+    }
+}

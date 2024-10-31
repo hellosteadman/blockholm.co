@@ -1,0 +1,25 @@
+<video src="{{ src }}" poster="{{ poster }}" preload="metadata"></video>
+<div class="controls text-light">
+    <button class="btn-play disabled" data-actino="play" disabled>
+        <i class="bi bi-play-fill"></i>
+    </button>
+    <button class="btn-pause disabled" data-actino="play" disabled>
+        <i class="bi bi-pause-fill"></i>
+    </button>
+    <input type="range" value="0" class="disabled" disabled>
+    <button class="btn-mute disabled" disabled>
+        <i class="bi bi-volume-mute"></i>
+    </button>
+    <button class="btn-unmute disabled" disabled>
+        <i class="bi bi-volume-up"></i>
+    </button>
+    <span>
+        <span class="elapsed">00:00</span> / <span class="duration">00:00</span>
+    </span>
+</div>
+
+<div class="ready-state">
+    <button class="btn-play btn-lg">
+        <i class="bi bi-play-fill display-1"></i>
+    </button>
+</div>
