@@ -183,7 +183,7 @@ class OpenGraphMixin(object):
             },
             {
                 'property': 'logo',
-                'content': staticfiles_storage.url('img/logo.png')
+                'content': staticfiles_storage.url('img/logo-light.png')
             }
         ]
 
