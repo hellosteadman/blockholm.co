@@ -1,4 +1,4 @@
-from datetime import datetime
+from dateutil.parser import parse as parse_date
 from django.apps import apps
 from . import settings
 
@@ -31,7 +31,7 @@ class DateProperty(PropertyBase):
             )
 
         start = self.value['start']
-        return datetime.strptime(start, '%Y-%m-%d')
+        return parse_date(start)
 
 
 class UrlProperty(PropertyBase):
