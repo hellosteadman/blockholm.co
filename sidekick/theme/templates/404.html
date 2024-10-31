@@ -1,18 +1,26 @@
-{% extends 'base.html' %}
-{% load static %}
+{% load static %}<!DOCTYPE html>
+<html lang="en-gb">
+    <head>
+        <meta charset="utf-8">
+        <title>Internal server error</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/static/css/theme.css">
+    </head>
+    <body class="show-flex viewport-height-100 justify-content-between flex-column background-light">
+        <div class="viewport-height-100 show-flex flex-column align-items-center justify-content-center text-center">
+            <div class="margin-y-auto width-50">
+                <h1>Page not found</h1>
+                <p class="lead">
+                    Sorry, looks like the thing you were looking for has been
+                    removed or scrubbed from the Internet out of embarrassment.
+                </p>
+            </div>
 
-{% block html %}
-    <div class="viewport-height-100 show-flex flex-column align-items-center justify-content-center text-center">
-        <div class="margin-y-auto width-50">
-            <h1>Page not found</h1>
-            <p class="lead">
-                Sorry, looks like the thing you were looking for has been
-                removed or scrubbed from the Internet out of embarrassment.
-            </p>
+            <div class="margin-top-auto margin-bottom-0">
+                <img alt="John Travolta in Pulp Fiction, looking around, all confused" src="{% static 'img/travolta.gif' %}" width="245">
+            </div>
         </div>
-
-        <div class="margin-top-auto margin-bottom-0">
-            <img alt="John Travolta in Pulp Fiction, looking around, all confused" src="{% static 'img/travolta.gif' %}" width="245">
-        </div>
-    </div>
-{% endblock html %}
+    </body>
+</html>
