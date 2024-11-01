@@ -40,7 +40,7 @@ class PostListView(PostMixin, OpenGraphMixin, ListView):
     og_description = 'Drown in an ocean of posts about Notion.'
     ld_type = 'Blog'
     ld_attributes = {
-        'name': 'Notion Sidekick'
+        'name': 'Blockholm'
     }
 
     def get_tags(self):
@@ -85,7 +85,7 @@ class PostListView(PostMixin, OpenGraphMixin, ListView):
         return queryset.distinct()
 
     def get_seo_title(self):
-        title = 'Notion Sidekick posts'
+        title = 'Blockholm posts'
 
         if tags := self.get_tags():
             title += ' tagged %s' % ', '.join(
@@ -161,7 +161,7 @@ class PostDetailView(PostMixin, OpenGraphArticleMixin, DetailView):
 class CreateSubscriberView(SEOMixin, FormView):
     template_name = 'newsletter/subscriber_form.html'
     form_class = SubscriberForm
-    seo_title = 'Subscribe to the Notion Sidekick newsletter'
+    seo_title = 'Subscribe to the Blockholm newsletter'
 
     def form_valid(self, form):
         form.save()

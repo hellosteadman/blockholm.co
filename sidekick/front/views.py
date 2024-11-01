@@ -16,17 +16,17 @@ from .models import Page
 
 class IndexView(SEOMixin, OpenGraphMixin, LinkedDataMixin, TemplateView):
     template_name = 'front/index.html'
-    seo_title = 'Notion Sidekick'
+    seo_title = 'Blockholm'
     seo_description = 'Notion blog and newsletter with tips and templates'
     og_type = 'website'
-    og_title = 'Notion Sidekick'
+    og_title = 'Blockholm'
     og_description = (
         'Weekly tips and templates to help you get the most from Notion.'
     )
 
     ld_type = 'WebSite'
     ld_attributes = {
-        'name': 'Notion Sidekick',
+        'name': 'Blockholm',
         'publisher': {
             '@type': 'Person',
             'name': 'Mark Steadman',

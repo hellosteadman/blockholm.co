@@ -14,7 +14,7 @@
         <link rel="icon" type="image/svg+xml" href="{% static 'favicons/favicon.svg' %}">
         <link rel="shortcut icon" href="{% static 'favicons/favicon.ico' %}">
         <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicons/apple-touch-icon.png' %}">
-        <meta name="apple-mobile-web-app-title" content="Sidekick">
+        <meta name="apple-mobile-web-app-title" content="Blockholm">
         <link rel="manifest" href="{% static 'favicons/site.webmanifest' %}">
         <script defer data-domain="{{ request.get_host }}" src="https://plausible.io/js/plausible.js"></script>
         {% recaptcha_script %}
@@ -24,9 +24,9 @@
             <div class="container">
                 {% block header %}
                     <div class="show-flex flex-wrap justify-content-between">
-                        <a href="/" class="show-flex align-items-center text-light text-decoration-none">
-                            <img alt="Logo" src="{% static 'img/logo.png' %}" class="margin-end-1" style="height: 1rem;">
-                            Notion&nbsp;<b>Sidekick</b>
+                        <a href="/" class="show-flex align-items-center text-light text-decoration-none font-weight-light">
+                            <img alt="Logo" src="{% static 'img/logo-light.png' %}" class="margin-end-1" style="height: 1rem;">
+                            Block<span class="font-weight-bold">holm</span>
                         </a>
 
                         <button type="submit" class="show-tablet-none btn btn-lg" data-toggle="menu">

@@ -1,7 +1,5 @@
-from django.conf import settings
 from django.contrib.syndication.views import Feed
-from django.utils import feedgenerator, timezone, html
-from markdown import markdown
+from django.utils import feedgenerator, timezone
 from .models import Post
 
 
@@ -18,8 +16,8 @@ class ContenetEncodedRss201rev2Feed(feedgenerator.Rss201rev2Feed):
 
 class PostFeed(Feed):
     feed_type = ContenetEncodedRss201rev2Feed
-    title = 'Notion Sidekick'
-    link = 'https://notionsidekick.com/posts/'
+    title = 'Blockholm'
+    link = 'https://blockholm.co/posts/'
     description = 'Tips and templates to help you get the most out of Notion.'
     author_name = 'Mark Steadman'
     item_author_name = 'Mark Steadman'

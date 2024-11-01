@@ -6,7 +6,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = not not os.getenv('DEBUG')
-DOMAIN = os.getenv('DOMAIN', 'notionsidekick.com')
+DOMAIN = os.getenv('DOMAIN', 'blockholm.co')
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -136,10 +136,10 @@ RECAPTCHA = {
 
 ANYMAIL = {
     'MAILERSEND_API_TOKEN': os.getenv('MAILERSEND_API_TOKEN'),
-    'MAILERSEND_SENDER_DOMAIN': 'notionsidekick.com'
+    'MAILERSEND_SENDER_DOMAIN': 'blockholm.co'
 }
 
 EMAIL_BACKEND = 'anymail.backends.mailersend.EmailBackend'
-DEFAULT_FROM_NAME = 'Notion Sidekick'
-DEFAULT_FROM_EMAIL = 'updates@notionsidekick.com'
-DEFAULT_REPLYTO_EMAIL = 'editor@notionsidekick.com'
+DEFAULT_FROM_NAME = 'Blockholm'
+DEFAULT_FROM_EMAIL = 'updates@blockholm.co'
+DEFAULT_REPLYTO_EMAIL = 'editor@blockholm.co'
