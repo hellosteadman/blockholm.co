@@ -24,10 +24,6 @@
     <div class="grid">
         <div class="cell-tablet-8 margin-x-auto">
             <form action="{{ request.path }}" method="post" novalidate>
-                {% for error in form.captcha.errors %}
-                    <div class="alert alert-danger">{{ error }}</div>
-                {% endfor %}
-
                 {% bootstrap_field form.email size='lg' wrapper_class='margin-bottom-3' placeholder='jo@example.com' %}
                 {% bootstrap_field form.name wrapper_class='margin-bottom-3' placeholder='Jo Bloggs' %}
                 {% bootstrap_field form.include_tags wrapper_class='margin-bottom-3' %}

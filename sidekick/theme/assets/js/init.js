@@ -4,5 +4,4 @@ import {} from 'bootstrap'
 
 document.querySelectorAll('.ratio-unknown').forEach(adjust)
 import {} from './pagination'
-import {} from './recaptcha'
 import {} from './video'

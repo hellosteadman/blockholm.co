@@ -29,8 +29,7 @@ INSTALLED_APPS = [
     'sidekick.mail',
     'sidekick.theme',
     'sidekick.seo',
-    'sidekick.contrib.notion',
-    'sidekick.contrib.recaptcha'
+    'sidekick.contrib.notion'
 ]
 
 MIDDLEWARE = (
@@ -126,12 +125,6 @@ NOTION = {
         'newsletter.Subscriber': os.getenv('NOTION_SUBSCRIBER_DATABASE'),
         'front.Page': os.getenv('NOTION_PAGE_DATABASE')
     }
-}
-
-RECAPTCHA = {
-    'PUBLIC_KEY': os.getenv('RECAPTCHA_PUBLIC_KEY'),
-    'SECRET_KEY': os.getenv('RECAPTCHA_SECRET_KEY'),
-    'SCORE_THRESHOLD': .5
 }
 
 ANYMAIL = {

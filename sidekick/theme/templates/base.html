@@ -1,4 +1,4 @@
-{% load seo static recaptcha %}<!DOCTYPE html>
+{% load seo static %}<!DOCTYPE html>
 <html lang="en-gb">
     <head>
         <meta charset="utf-8">
@@ -17,7 +17,6 @@
         <meta name="apple-mobile-web-app-title" content="Blockholm">
         <link rel="manifest" href="{% static 'favicons/site.webmanifest' %}">
         <script defer data-domain="{{ request.get_host }}" src="https://plausible.io/js/plausible.js"></script>
-        {% recaptcha_script %}
     </head>
     <body class="show-flex viewport-height-100 justify-content-between flex-column background-light {% block body_classes %}{% endblock %}">{% block html %}
         <header class="site-header text-light padding-y-4">

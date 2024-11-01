@@ -3,7 +3,6 @@ from django.db import transaction
 from django.db.models import Count
 from django.utils import timezone
 from sidekick.contrib.notion import sync
-from sidekick.contrib.recaptcha.fields import RecaptchaField
 from taggit.models import Tag
 from .models import Subscriber
 
@@ -35,8 +34,6 @@ class SubscriberForm(forms.ModelForm):
         ),
         required=False
     )
-
-    captcha = RecaptchaField()
 
     def __init__(self, *args, **kwargs):
         if instance := kwargs.get('instance'):
