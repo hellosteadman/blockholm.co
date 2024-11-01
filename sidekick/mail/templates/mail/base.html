@@ -71,10 +71,10 @@
                                                         </table>
                                                         <div class="text-muted text-center" style="color: #718096;" align="center">
                                                             <p>Hello Steadman Ltd<br />33 Ludgate Hill, Birmingham, B3 1EH, United Kingdom</p>
-                                                            <p>
-                                                                <a href="{{ preferences_url }}" style="color: #73716E; text-decoration: underline;">Update preferences</a>&#160;&#160;&#160;
-                                                                <a href="{{ unsubscribe_url }}" style="color: #EB5757; text-decoration: underline;">Unsubscribe</a>
-                                                            </p>
+                                                            {% if preferences_url or unsubscribe_url %}<p>
+                                                                {% if preferences_url %}<a href="{{ preferences_url }}" style="color: #73716E; text-decoration: underline;">Update preferences</a>&#160;&#160;&#160;{% endif %}
+                                                                {% if unsubscribe_url %}<a href="{{ unsubscribe_url }}" style="color: #EB5757; text-decoration: underline;">Unsubscribe</a>{% endif %}
+                                                            </p>{% endif %}
                                                         </div>
                                                         <table class="s-6 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
                                                             <tbody>

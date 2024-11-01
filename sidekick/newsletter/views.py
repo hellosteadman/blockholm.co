@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.http.response import Http404, HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
@@ -174,6 +175,72 @@ class CreateSubscriberView(SEOMixin, FormView):
 class SubscriberCreatedView(SEOMixin, TemplateView):
     robots = 'noindex'
     template_name = 'newsletter/subscriber_created.html'
+
+
+class ConfirmSubscriberView(View):
+    def get_object(self):
+        token = jwt.decode(
+            self.kwargs['token'],
+            settings.SECRET_KEY,
+            algorithms=('HS256',)
+        )
+
+        obj, created = Subscriber.objects.get_or_create(
+            email__iexact=token['eml'],
+            defaults={
+                'email': token['eml'],
+                'name': token['name'],
+                'subscribed': timezone.now(),
+                'status': 'Subscribed'
+            }
+        )
+
+        excluded_tags = Tag.objects.filter(
+            pk__in=token['exc']
+        )
+
+        obj.excluded_tags.add(*excluded_tags)
+        obj.notion_id = sync.from_model(obj)
+        obj.save()
+
+        return obj
+
+    @transaction.atomic
+    def get(self, request, *args, **kwargs):
+        try:
+            obj = self.get_object()
+        except jwt.InvalidTokenError:
+            return TemplateResponse(
+                self.request,
+                'newsletter/invalid_token.html',
+                status=400
+            )
+
+        return HttpResponseRedirect(
+            '%s?id=%s' % (
+                self.get_success_url(),
+                obj.notion_id
+            )
+        )
+
+    def get_success_url(self):
+        return reverse('subscriber_confirmed')
+
+
+class SubscriberConfirmedView(SEOMixin, TemplateView):
+    robots = 'noindex'
+    seo_title = 'Subscription confirmed'
+    template_name = 'newsletter/subscriber_confirmed.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        if notion_id := self.request.GET.get('id'):
+            ctx['object'] = Subscriber.objects.filter(
+                notion_id=notion_id
+            ).first()
+
+        return ctx
 
 
 class UpdateSubscriberView(SEOMixin, UpdateView):

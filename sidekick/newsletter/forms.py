@@ -56,11 +56,6 @@ class SubscriberForm(forms.ModelForm):
 
     @transaction.atomic
     def save(self):
-        obj = super().save(commit=False)
-        obj.subscribed = timezone.now()
-        obj.status = 'Subscribed'
-        obj.save()
-
         include_tags = self.cleaned_data.get('include_tags', [])
         excluded_tags = Tag.objects.annotate(
             post_count=Count('posts')
@@ -70,22 +65,35 @@ class SubscriberForm(forms.ModelForm):
             pk__in=include_tags
         )
 
-        for tag in excluded_tags:
-            obj.excluded_tags.add(tag)
+        if self.instance and self.instance.pk:
+            obj = super().save(commit=False)
+            obj.status = 'Subscribed'
+            obj.save()
 
-        obj.excluded_tags.remove(
-            *Tag.objects.exclude(
-                pk__in=excluded_tags.values_list(
-                    'pk',
-                    flat=True
+            for tag in excluded_tags:
+                obj.excluded_tags.add(tag)
+
+            obj.excluded_tags.remove(
+                *Tag.objects.exclude(
+                    pk__in=excluded_tags.values_list(
+                        'pk',
+                        flat=True
+                    )
                 )
             )
+
+            obj.save()
+            transaction.on_commit(
+                lambda: sync.from_model(obj)
+            )
+
+            return obj
+
+        Subscriber.objects.send_confirmation(
+            email=self.cleaned_data['email'],
+            name=self.cleaned_data.get('name'),
+            excluded_tags=excluded_tags
         )
-
-        obj.notion_id = sync.from_model(obj)
-        obj.save()
-
-        return obj
 
     class Meta:
         model = Subscriber
