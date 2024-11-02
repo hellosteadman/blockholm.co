@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/rq/', include('django_rq.urls')),
     path('admin/', admin.site.urls),
     path('robots.txt', RobotsTxtView.as_view(), name='robots_txt'),
+    path('webmention/', include('webmention.urls')),
     path('', include('sidekick.newsletter.urls')),
     path('', include(sitemaps)),
     path('~/ready/', ReadyView.as_view())

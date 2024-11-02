@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'anymail',
     'django_rq',
     'watson',
+    'webmention',
     'sidekick.newsletter',
     'sidekick.front',
     'sidekick.oembed',
