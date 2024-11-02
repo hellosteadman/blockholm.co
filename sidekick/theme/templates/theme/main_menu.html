@@ -1,7 +1,7 @@
 <nav class="navbar" data-bs-theme="dark">
-    <ul class="navbar-nav margin-end-auto margin-bottom-2 margin-bottom-tablet-0">
+    <ul class="navbar-nav flex-row margin-end-auto margin-bottom-2 margin-bottom-tablet-0">
         {% for link in menus.header %}
-            <li class="nav-item show-none show-tablet-inline">
+            <li class="nav-item show-none show-tablet-inline margin-start-4">
                 <a href="{{ link.url }}" class="nav-link">{{ link.label }}</a>
             </li>
         {% endfor %}

@@ -10,6 +10,13 @@ def theme(request):
                     'label': 'Archive',
                     'url': reverse('post_list')
                 }
+            ] + [
+                {
+                    'label': page.title,
+                    'url': page.get_absolute_url()
+                } for page in Page.objects.filter(
+                    main_menu=True
+                )
             ],
             'footer': [
                 {
