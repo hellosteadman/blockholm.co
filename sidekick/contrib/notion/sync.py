@@ -10,7 +10,7 @@ from notion_client.helpers import iterate_paginated_api
 from . import settings
 from .blocks import Block
 from .properties import Property
-from .signals import object_synced
+from .signals import object_synced, objects_synced
 import json
 
 
@@ -200,6 +200,7 @@ def to_model(Model, before_clean=None, blocks_field=None, media_handler=''):
                     direction='down'
                 )
 
+        objects_synced.send(Model, direction='down')
         Model.objects.exclude(pk__in=pks).delete()
         return Model.objects.filter(pk__in=pks)
 
@@ -234,6 +235,11 @@ def from_model(obj):
         object_synced.send(
             Model,
             instance=obj,
+            direction='up'
+        )
+
+        objects_synced.send(
+            Model,
             direction='up'
         )
 
