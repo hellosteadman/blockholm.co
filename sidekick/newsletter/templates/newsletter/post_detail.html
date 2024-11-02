@@ -21,7 +21,10 @@
                     <date datetime="{{ object.published.isoformat }}">{{ object.published|date:'F jS, Y' }}</date>
                     <br>
                     {% for tag in object.tags.all %}
-                        <a href="{% url 'post_list' %}?tag={{ tag.slug }}" class="badge background-secondary rounded-pill text-decoration-none">{{ tag }}</a>
+                        <a href="{% url 'post_list' %}?tag={{ tag.slug }}" class="badge background-secondary rounded-pill text-decoration-none">
+                            <i class="bi bi-tag-fill"></i>
+                            {{ tag }}
+                        </a>
                     {% endfor %}
 
                     <span class="badge text-secondary">
