@@ -16,4 +16,5 @@ markdown==3.7
 notion-client==2.2.1
 PyJWT==2.9.0
 python-dateutil==2.9.0.post0
+readtime==3.0.0
 requests==2.32.3
