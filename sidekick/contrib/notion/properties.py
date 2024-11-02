@@ -109,6 +109,10 @@ class EmailProperty(PropertyBase):
     pass
 
 
+class CheckboxProperty(PropertyBase):
+    pass
+
+
 class RelationProperty(PropertyBase):
     def to_python(self):
         items = []
@@ -152,6 +156,7 @@ def Property(name, definition):
             'status': StatusProperty,
             'text': TextProperty,
             'email': EmailProperty,
+            'checkbox': CheckboxProperty,
             'relation': RelationProperty
         }[prop_type]
 
