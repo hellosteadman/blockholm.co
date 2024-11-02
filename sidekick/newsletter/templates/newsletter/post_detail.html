@@ -23,6 +23,11 @@
                     {% for tag in object.tags.all %}
                         <a href="{% url 'post_list' %}?tag={{ tag.slug }}" class="badge background-secondary rounded-pill text-decoration-none">{{ tag }}</a>
                     {% endfor %}
+
+                    <span class="badge text-secondary">
+                        <i class="bi bi-clock"></i>
+                        {{ object.readtime }}
+                    </span>
                 </p>
 
                 <hr class="margin-y-5">

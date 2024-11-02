@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.utils.html import strip_tags
 from hashlib import md5
 from markdown import markdown
+from readtime import of_markdown as markdown_readtime
 from sidekick.contrib.notion import sync
 from sidekick.contrib.notion.models import Block
 from sidekick.contrib.notion.signals import object_synced
@@ -126,6 +127,20 @@ class Post(models.Model):
                     break
 
         return strip_tags(markdown(text.strip()))
+
+    @property
+    def readtime(self):
+        return markdown_readtime(
+            '\n\n'.join(
+                [
+                    t.strip()
+                    for t in self.content.values_list(
+                        'properties__text',
+                        flat=True
+                    ) if t
+                ]
+            )
+        )
 
     class Meta:
         ordering = ('-published',)
