@@ -53,6 +53,7 @@ class Page(models.Model):
         blank=True
     )
 
+    main_menu = models.BooleanField(default=False)
     ordering = models.PositiveIntegerField(default=0)
     content = GenericRelation(Block)
 
