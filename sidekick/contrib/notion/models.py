@@ -2,6 +2,8 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from markdown import markdown
 from .query import BlockQuerySet
 
 
@@ -16,6 +18,7 @@ class Block(models.Model):
     ordering = models.PositiveIntegerField(default=0)
     type = models.CharField(max_length=300)
     properties = models.JSONField(default=dict, blank=True)
+    word_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.type.capitalize().replace('_', ' ')
@@ -32,6 +35,15 @@ class Block(models.Model):
                 'simple': simple
             }
         )
+
+    def save(self, *args, **kwargs):
+        self.word_count = 0
+
+        if text := self.properties.get('text'):
+            text = strip_tags(markdown(text))
+            self.word_count = len(text.split())
+
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ('ordering',)
