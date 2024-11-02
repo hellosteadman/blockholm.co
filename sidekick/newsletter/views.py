@@ -14,6 +14,7 @@ from django.views.generic import (
     TemplateView
 )
 
+from easy_thumbnails.files import get_thumbnailer
 from hashlib import md5
 from sidekick.contrib.notion import sync
 from sidekick.seo.views import (
@@ -111,6 +112,11 @@ class PostListView(PostMixin, OpenGraphMixin, ListView):
 
 class PostDetailView(PostMixin, OpenGraphArticleMixin, DetailView):
     ld_type = 'BlogPosting'
+    ld_breadcrumbs = [
+        ('/', 'Home'),
+        ('../', 'Archive'),
+        ('.', '__str__')
+    ]
 
     def get_og_description(self):
         return self.get_object().get_excerpt()
@@ -124,6 +130,7 @@ class PostDetailView(PostMixin, OpenGraphArticleMixin, DetailView):
                 reverse('post_list')
             ),
             'description': obj.get_excerpt(),
+            'keywords': obj.tags.values_list('name', flat=True),
             'author': {
                 '@type': 'Person',
                 'name': obj.author.get_full_name(),
@@ -144,11 +151,34 @@ class PostDetailView(PostMixin, OpenGraphArticleMixin, DetailView):
                     'width': 400,
                     'height': 400
                 }
+            },
+            'publisher': {
+                '@type': 'WebSite',
+                'name': 'Blockholm',
+                'url': self.request.build_absolute_uri('/')
             }
         }
 
         if obj.published:
             attrs['datePublished'] = obj.published
+
+        if img_block := obj.content.filter(type='image').first():
+            if img_block.ordering == 0 or img_block.ordering == 1:
+                src = img_block.properties['src']
+                thumbnailer = get_thumbnailer(src)
+
+                if thumb := thumbnailer.get_thumbnail(
+                    {
+                        'size': (1200, 630),
+                        'crop': True
+                    }
+                ):
+                    attrs['image'] = {
+                        '@type': 'ImageObject',
+                        'url': thumb.url,
+                        'width': thumb.width,
+                        'height': thumb.height
+                    }
 
         return attrs
 

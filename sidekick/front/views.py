@@ -1,7 +1,7 @@
-from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage as static
 from django.utils import timezone
 from django.views.generic import TemplateView, DetailView
+from easy_thumbnails.files import get_thumbnailer
 from sidekick.newsletter.forms import SubscriberForm
 from sidekick.newsletter.models import Post
 from sidekick.seo.views import (
@@ -25,6 +25,11 @@ class IndexView(SEOMixin, OpenGraphMixin, LinkedDataMixin, TemplateView):
     ld_type = 'WebSite'
     ld_attributes = {
         'name': 'Blockholm',
+        'description': (
+            'A resource for creative entrepreneurs offering tips, techniques, '
+            'templates, and news for using Notion to retain sanity, especially '
+            'for those with neurodivergent minds.'
+        ),
         'publisher': {
             '@type': 'Person',
             'name': 'Mark Steadman',
@@ -32,25 +37,38 @@ class IndexView(SEOMixin, OpenGraphMixin, LinkedDataMixin, TemplateView):
             'familyName': 'Steadman',
             'url': 'https://hellosteadman.com/',
             'image': {
-                '@type': 'imageObject',
+                '@type': 'ImageObject',
                 'url': static.url('img/mark.jpg'),
                 'width': 400,
                 'height': 400
             },
             'contactPoint': {
                 '@type': 'ContactPoint',
-                'email': settings.DEFAULT_REPLYTO_EMAIL,
+                'email': 'editor@blockholm.co',
                 'url': 'https://hellosteadman.com/',
                 'contactType': 'customer service'
             },
             'sameAs': [
                 'https://mastodon.social/@hellosteadman',
-                'https://twitter.com/hellosteadman',
-                'https://www.linkedin.com/in/hellosteadman/'
+                'https://www.linkedin.com/in/hellosteadman/',
+                'https://www.instagram.com/hellosteadman/',
+                'https://www.threads.net/@hellosteadman/'
             ]
         },
-        'copyrightNotice': '\u00a9 Hello Steadman Ltd',
-        'copyrightYear': '2024'
+        'logo': {
+            '@type': 'ImageObject',
+            'url': static.url('img/logo.png')
+        },
+        'copyrightNotice': '© Hello Steadman Ltd',
+        'copyrightYear': '2024',
+        'locationCreated': {
+            '@type': 'Place',
+            'address': {
+                '@type': 'PostalAddress',
+                'addressLocality': 'Birmingham',
+                'addressCountry': 'GB'
+            }
+        }
     }
 
     def get_context_data(self, **kwargs):
@@ -80,7 +98,7 @@ class PageDetailView(
 
     def get_ld_attributes(self):
         obj = self.get_object()
-        return {
+        attrs = {
             'headline': obj.title,
             'inLanguage': 'en-gb',
             'url': self.request.build_absolute_uri(
@@ -88,3 +106,23 @@ class PageDetailView(
             ),
             'description': obj.get_excerpt()
         }
+
+        if img_block := obj.content.filter(type='image').first():
+            if img_block.ordering == 0 or img_block.ordering == 1:
+                src = img_block.properties['src']
+                thumbnailer = get_thumbnailer(src)
+
+                if thumb := thumbnailer.get_thumbnail(
+                    {
+                        'size': (1200, 630),
+                        'crop': True
+                    }
+                ):
+                    attrs['image'] = {
+                        '@type': 'ImageObject',
+                        'url': thumb.url,
+                        'width': thumb.width,
+                        'height': thumb.height
+                    }
+
+        return attrs
