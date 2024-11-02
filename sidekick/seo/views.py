@@ -417,6 +417,12 @@ class LinkedDataMixin(object):
         if 'breadcrumb' not in data and breadcrumb:
             data['breadcrumb'] = breadcrumb
 
+        if self.request.path != '/' and 'mainEntityOfPage' not in data:
+            data['mainEntityOfPage'] = {
+                '@id': self.request.build_absolute_uri('/'),
+                'name': 'Home'
+            }
+
         return data
 
     def get_context_data(self, **kwargs):
