@@ -1,4 +1,5 @@
 from django.urls import path
+from webmention.middleware import include_webmention_information as webmention
 from .feeds import PostFeed
 from .views import (
     PostListView, PostDetailView,
@@ -12,7 +13,11 @@ from .views import (
 urlpatterns = (
     path('posts/', PostListView.as_view(), name='post_list'),
     path('posts/feed/', PostFeed(), name='post_feed'),
-    path('posts/<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
+    path(
+        'posts/<slug:slug>/',
+        webmention(PostDetailView.as_view()),
+        name='post_detail'
+    ),
     path('subscribe/', CreateSubscriberView.as_view(), name='create_subscriber'),  # NOQA
     path('subscribe/confirmed/', SubscriberConfirmedView.as_view(), name='subscriber_confirmed'),  # NOQA
     path('subscribe/<token>/', ConfirmSubscriberView.as_view(), name='confirm_subscriber'),  # NOQA

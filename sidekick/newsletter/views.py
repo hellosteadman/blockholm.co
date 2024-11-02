@@ -155,6 +155,9 @@ class PostDetailView(PostMixin, OpenGraphArticleMixin, DetailView):
     def get_context_data(self, **kwargs):
         return {
             'subscribe_form': SubscriberForm(),
+            'webmention_url': self.request.build_absolute_uri(
+                reverse('webmention:receive')
+            ),
             **super().get_context_data(**kwargs)
         }
 
