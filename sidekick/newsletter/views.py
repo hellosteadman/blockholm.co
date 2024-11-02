@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import transaction
+from django.db.models import Sum
 from django.http.response import Http404, HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
@@ -123,6 +124,10 @@ class PostDetailView(PostMixin, OpenGraphArticleMixin, DetailView):
     
     def get_ld_attributes(self):
         obj = self.get_object()
+        word_count = obj.content.aggregate(
+            count=Sum('word_count')
+        )
+
         attrs = {
             'headline': obj.title,
             'inLanguage': 'en-gb',
@@ -158,6 +163,9 @@ class PostDetailView(PostMixin, OpenGraphArticleMixin, DetailView):
                 'url': self.request.build_absolute_uri('/')
             }
         }
+
+        if word_count and word_count.get('count'):
+            attrs['wordCount'] = word_count['count']
 
         if obj.published:
             attrs['datePublished'] = obj.published
