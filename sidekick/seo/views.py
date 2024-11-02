@@ -2,6 +2,7 @@ from datetime import datetime, date
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
 from django.core.files.storage import default_storage
+from django.db.models import QuerySet
 from django.db.models.fields.files import ImageFieldFile
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -314,6 +315,9 @@ class LinkedDataEncoder(json.JSONEncoder):
     def default(self, value):
         if isinstance(value, (datetime, date)):
             return value.isoformat()
+
+        if isinstance(value, QuerySet):
+            return list(value)
 
         return super().default(value)
 
