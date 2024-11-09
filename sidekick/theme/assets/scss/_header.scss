@@ -3,3 +3,21 @@
         line-height: 1;
     }
 }
+
+.btn-outline-dark {
+    svg {
+        path {
+            transition: fill .15s ease-in-out;
+            fill: $dark;
+        }
+    }
+
+    &:hover {
+        svg {
+            path {
+                transition: fill .15s ease-in-out;
+                fill: $light;
+            }
+        }
+    }
+}
