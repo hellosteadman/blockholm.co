@@ -19,9 +19,12 @@
     <p class="display-2">Explore how history&rsquo;s outliers got stuff done.</p>
 
     <div class="show-tablet-flex align-items-center">
-        <form action="{% url 'create_subscriber' %}" method="post" class="show-flex align-items-center margin-bottom-2 margin-bottom-tablet-0 margin-end-tablet-2 flex-grow-1">
-            {% bootstrap_field form.email show_label=False size='lg' wrapper_class='flex-grow-1 margin-end-2' field_class='rounded-pill' placeholder='jo@example.com' %}
-            <button type="submit" class="btn btn-primary flex-shrink-0 rounded-pill">Subscribe</button>
+        <form action="{% url 'create_subscriber' %}" method="post" class="home-subscribe-form show-flex align-items-center margin-bottom-2 margin-bottom-tablet-0 margin-end-tablet-2 flex-grow-1">
+            <div class="form-control show-flex align-items-center justify-content-between rounded-pill">
+                {% bootstrap_field form.email show_label=False size='lg' wrapper_class='flex-grow-1 margin-end-2' placeholder='jo@example.com' %}
+                <button type="submit" class="btn btn-primary flex-shrink-0 rounded-pill">Subscribe</button>
+            </div>
+
             {{ form.hidden_fields|join:'' }}
             {% csrf_token %}
         </form>
