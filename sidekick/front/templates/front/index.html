@@ -17,15 +17,24 @@
     </div>
 
     <p class="display-2">Explore how history&rsquo;s outliers got stuff done.</p>
-    <form action="{% url 'create_subscriber' %}" method="post" class="show-flex">
-        {% bootstrap_field form.email show_label=False size='lg' wrapper_class='flex-grow-1 margin-end-2' field_class='rounded-pill' placeholder='jo@example.com' %}
-        <button type="submit" class="btn btn-primary flex-shrink-0 rounded-pill">Subscribe</button>
-        {{ form.hidden_fields|join:'' }}
-        {% csrf_token %}
-    </form>
+
+    <div class="show-tablet-flex align-items-center">
+        <form action="{% url 'create_subscriber' %}" method="post" class="show-flex align-items-center margin-bottom-2 margin-bottom-tablet-0 margin-end-tablet-2 flex-grow-1">
+            {% bootstrap_field form.email show_label=False size='lg' wrapper_class='flex-grow-1 margin-end-2' field_class='rounded-pill' placeholder='jo@example.com' %}
+            <button type="submit" class="btn btn-primary flex-shrink-0 rounded-pill">Subscribe</button>
+            {{ form.hidden_fields|join:'' }}
+            {% csrf_token %}
+        </form>
+
+        <a href="https://podcasts.apple.com/podcast/id1778691538" rel="external me nofollow" target="_blank" class="margin-end-2"><svg height="2.5em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><linearGradient id="apple__c" x1="0" x2="0" y1="0" y2="32" gradientUnits="userSpaceOnUse"><stop stop-color="#F452FF"/><stop offset="1" stop-color="#832BC1"/></linearGradient><clipPath id="apple__a"><path fill="#fff" d="M0 0h32v32H0z"/></clipPath></defs><g clip-path="url(#apple__a)"><mask id="apple__b" width="32" height="32" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path d="M16 0c12.357 0 16 3.643 16 16s-3.643 16-16 16S0 28.357 0 16 3.643 0 16 0Z"/></mask><g mask="url(#apple__b)"><path fill="url(#apple__c)" d="M0 0h32v32H0z"/><path fill="#fff" fill-rule="evenodd" d="M15.967 3.537a11.333 11.333 0 0 0-3.718 22.027.153.153 0 0 0 .202-.166 58.705 58.705 0 0 1-.164-1.161.388.388 0 0 0-.229-.307 9.884 9.884 0 1 1 7.885 0 .388.388 0 0 0-.229.307c-.05.383-.105.773-.164 1.16a.152.152 0 0 0 .202.165 11.332 11.332 0 0 0-3.785-22.025ZM16 16.583a2.638 2.638 0 1 1 0-5.276 2.638 2.638 0 0 1 0 5.276Zm-.004 1.068a3.23 3.23 0 0 1 2.335.838c.25.248.402.578.43.928.063.813.045 1.63-.054 2.438a55.305 55.305 0 0 1-.452 3.647c-.084.62-.21 1.235-.378 1.84a1.823 1.823 0 0 1-1.881 1.12 1.824 1.824 0 0 1-1.881-1.12 13.97 13.97 0 0 1-.379-1.84 55.556 55.556 0 0 1-.452-3.647 12.04 12.04 0 0 1-.052-2.438c.028-.35.18-.679.428-.928a3.224 3.224 0 0 1 2.336-.838Zm5.673-5.15a6.14 6.14 0 0 0-5.908-3.764 6.14 6.14 0 0 0-3.96 10.614.47.47 0 0 1 .148.369c-.022.431-.018.864.013 1.295a.149.149 0 0 1-.232.132 7.591 7.591 0 1 1 8.546-.001.15.15 0 0 1-.233-.133c.029-.43.033-.862.013-1.294a.474.474 0 0 1 .148-.368 6.139 6.139 0 0 0 1.465-6.85Z" clip-rule="evenodd"/></g></g></svg></a>
+        <a href="https://open.spotify.com/show/13OWkXqyOIXD7fwx6mHLcQ" rel="external me nofollow" target="_blank" class="margin-end-2"><svg height="2.5em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><clipPath id="spotify__a"><path fill="#fff" d="M0 0h32v32H0z"/></clipPath><clipPath id="spotify__c"><path fill="#fff" d="M3.333 3.333h25.333v25.333H3.333z"/></clipPath></defs><g clip-path="url(#spotify__a)"><mask id="spotify__b" width="32" height="32" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path d="M16 0c12.357 0 16 3.643 16 16s-3.643 16-16 16S0 28.357 0 16 3.643 0 16 0Z"/></mask><g mask="url(#spotify__b)"><path fill="#181413" d="M0 0h32v32H0z"/><g fill-rule="evenodd" clip-path="url(#spotify__c)" clip-rule="evenodd"><path fill="#1ED760" d="M16 28.668c6.997 0 12.668-5.672 12.668-12.668 0-6.996-5.671-12.668-12.668-12.668C9.004 3.332 3.332 9.004 3.332 16c0 6.996 5.672 12.668 12.668 12.668Z"/><path fill="#181413" d="M9.244 19.105c4.76-1.087 8.926-.652 12.304 1.413a.79.79 0 1 1-.824 1.348c-2.935-1.793-6.653-2.243-11.128-1.22a.79.79 0 0 1-.352-1.54Zm-.44-3.991c4.57-1.387 10.32-.72 14.23 1.683a.987.987 0 1 1-1.033 1.681c-3.403-2.091-8.564-2.708-12.623-1.476a.987.987 0 1 1-.574-1.888Zm7.479-4.994c2.953.236 6.017.98 8.42 2.406a1.183 1.183 0 0 1-1.209 2.035c-1.99-1.181-4.666-1.863-7.4-2.082-2.731-.219-5.396.034-7.318.617a1.183 1.183 0 1 1-.687-2.265c2.264-.687 5.236-.948 8.194-.712Z"/></g></g></g></svg></a>
+        <a href="https://www.youtube.com/channel/UCsxCFWG7pfK7_yD0F35VGFw" rel="external me nofollow" target="_blank"><svg height="2.5em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><path id="youtube__a" fill="#fff" d="M0 0h32v32H0z"/></defs><defs><clipPath id="youtube__b"><use href="#youtube__a"/></clipPath><clipPath id="youtube__d"><path fill="#fff" d="M4.25 4.25h23.5v23.5H4.25z"/></clipPath></defs><g clip-path="url(#youtube__b)"><mask id="youtube__c" width="32" height="32" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path d="M16 0c12.357 0 16 3.643 16 16s-3.643 16-16 16S0 28.357 0 16 3.643 0 16 0Z"/></mask><g mask="url(#youtube__c)"><use href="#youtube__a"/><g clip-path="url(#youtube__d)"><path fill="#FF0100" d="M27.259 10.307a2.953 2.953 0 0 0-2.078-2.091C23.349 7.72 16 7.72 16 7.72s-7.349 0-9.182.495a2.954 2.954 0 0 0-2.076 2.091C4.25 12.152 4.25 16 4.25 16s0 3.848.492 5.693a2.953 2.953 0 0 0 2.077 2.091c1.832.495 9.181.495 9.181.495s7.349 0 9.182-.494a2.953 2.953 0 0 0 2.077-2.092c.491-1.845.491-5.693.491-5.693s0-3.848-.491-5.693Z"/><path fill="#fff" d="M13.596 19.494v-6.987L19.738 16l-6.142 3.494Z"/></g></g></g></svg></a>
+    </div>
 {% endblock header %}
 
 {% block body %}
+    <iframe width="100%" height="180" frameborder="no" scrolling="no" src="https://share.transistor.fm/e/undo/latest" class="margin-bottom-3" seamless></iframe>
+
     <div class="grid justify-content-center">
         {% for object in post_list %}
             <div class="show-flex flex-column cell-tablet-4 margin-bottom-4">
